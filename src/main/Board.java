@@ -1,4 +1,5 @@
 package main;
+import main.Client;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -133,6 +134,7 @@ public class Board extends JFrame{
 
     public static void main(String[] args) throws Throwable
     {
+        Client c = new Client(5000);
         UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName()); // UI 디자인 라이브러리
         Board b = new Board();
     }
