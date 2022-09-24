@@ -1,9 +1,10 @@
 package main;
 
 import javax.swing.*;
+import java.awt.*;
 
 public class Pawn {
-    static final String[] NAMES = {"W", "B"};
+    static final String[] NAMES = {"Player1", "Player2"};
     JButton[] pawns = new JButton[2];
     protected void setPawn(int turn, JButton square) {
         if(pawns[turn] != null) {
@@ -11,5 +12,7 @@ public class Pawn {
         }
         pawns[turn] = square;
         pawns[turn].setText(NAMES[turn]);
+        pawns[turn].setBackground(Color.gray);
+
     }
 }
