@@ -1,4 +1,5 @@
 package main;
+import DB.Packet;
 import main.Client;
 
 import javax.swing.*;
@@ -14,6 +15,7 @@ public class Board extends JFrame{
     JButton[][][] hwalls = new JButton[ROWS-1][COLS][2];
 
 
+    private Client client;
     private JButton space(Color bg)
     {
         JButton space = new JButton();
@@ -130,11 +132,13 @@ public class Board extends JFrame{
         setVisible(true); //창 열기
         setSize(1200,1200);
         initBoard();
+        client = new Client(5000);
+        client.Write(new Packet(Packet.State.H_Move, 1, 2));
+        System.out.println("실행중");
     }
 
     public static void main(String[] args) throws Throwable
     {
-        Client c = new Client(5000);
         UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName()); // UI 디자인 라이브러리
         Board b = new Board();
     }
