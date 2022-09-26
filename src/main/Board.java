@@ -1,4 +1,5 @@
 package main;
+import DB.Packet;
 import main.Client;
 
 import javax.swing.*;
@@ -17,6 +18,7 @@ public class Board extends JFrame{
 
     //2차원 배열 2개 만드셈
 
+    private Client client;
     private JButton space(Color bg)
     {
         Quoridor quoridor = new Quoridor();
