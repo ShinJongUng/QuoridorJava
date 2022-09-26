@@ -9,7 +9,7 @@ public class Main {
         b.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE); //창 관리자
         b.setTitle("쿼리도 게임");
         b.setVisible(true); //창 열기
-        b.setSize(1500,1100);
+        b.setSize(1300,1100);
         b.initBoard();
     }
     public static void main(String[] args) throws Throwable

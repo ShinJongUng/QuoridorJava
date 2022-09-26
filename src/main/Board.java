@@ -1,5 +1,4 @@
 package main;
-import DB.Packet;
 import main.Client;
 
 import javax.swing.*;
@@ -13,12 +12,18 @@ public class Board extends JFrame{
     static final int ROWS = 9, COLS = 9;
     public static JButton[][] Spaces = new JButton[ROWS][COLS];
     public static JButton[][] CenterWalls = new JButton[ROWS-1][COLS-1];
-    public static JButton[][][] VerticalWalls = new JButton[ROWS][COLS-1][2];
-    public static JButton[][][] HorizontalWalls = new JButton[ROWS-1][COLS][2];
+    public static JButton[][] VerticalWalls = new JButton[ROWS][COLS-1];
+    public static JButton[][] HorizontalWalls = new JButton[ROWS-1][COLS];
 
+    public static String [][] CheckVwalls = new String[ROWS][COLS];
+
+    public static String [][] CheckHwalls = new String[ROWS][COLS];
     //2차원 배열 2개 만드셈
 
-    private Client client;
+    public static String [][] CheckPawn1 = new String[ROWS][COLS];
+    public static String [][] CheckPawn2 = new String[ROWS][COLS];
+
+
     private JButton space(Color bg)
     {
         Quoridor quoridor = new Quoridor();
@@ -44,10 +49,8 @@ public class Board extends JFrame{
 
         for(int i = 0; i < ROWS; i++) {
             for(int j = 0; j < COLS-1; j++) {
-                JPanel panel = new JPanel(new GridLayout(2, 1));
-                for (int k = 0; k < 2; k++) {
-                    panel.add(VerticalWalls[i][j][k]);
-                }
+                JPanel panel = new JPanel(new GridLayout(1, 1));
+                panel.add(VerticalWalls[i][j]);
                 grid[2 * i][2 * j + 1] = panel;
             }
         }
@@ -55,9 +58,7 @@ public class Board extends JFrame{
         for(int i = 0; i < ROWS-1; i++) {
             for(int j = 0; j < COLS; j++){
                 JPanel panel = new JPanel(new GridLayout(1,2));
-                for(int k = 0; k < 2; k++){
-                    panel.add(HorizontalWalls[i][j][k]);
-                }
+                panel.add(HorizontalWalls[i][j]);
                 grid[2 * i + 1][2 * j] = panel;
             }
         }
@@ -83,11 +84,11 @@ public class Board extends JFrame{
             GroupLayout.ParallelGroup verticalParallelGroup = layout.createParallelGroup();
             for(int j = 0; j < grid.length; j++)
             {
-                // 칸은 사이즈 80으로 막는 줄은 20으로
+                // 칸은 사이즈 90으로 막는 줄은 20으로
                 horizontalParallelGroup.addComponent(grid[i][j], GroupLayout.PREFERRED_SIZE,
-                        (i % 2 == 0) ? 100 : 20 , GroupLayout.PREFERRED_SIZE);
+                        (i % 2 == 0) ? 90 : 20 , GroupLayout.PREFERRED_SIZE);
                 verticalParallelGroup.addComponent(grid[j][i], GroupLayout.PREFERRED_SIZE,
-                        (i % 2 == 0) ? 100 : 20, GroupLayout.PREFERRED_SIZE);
+                        (i % 2 == 0) ? 90 : 20, GroupLayout.PREFERRED_SIZE);
             }
             verticalSequentialGroup.addGroup(horizontalParallelGroup);
             horizontalSequentialGroup.addGroup(verticalParallelGroup);
@@ -111,16 +112,16 @@ public class Board extends JFrame{
 
         for(int i = 0; i < ROWS ; i++) {
             for (int j = 0; j < COLS - 1; j++) {
-                for (int k = 0; k < 2; k++) { //클릭 할 수 있는 칸을 2개로 나눔
-                    VerticalWalls[i][j][k] = space(Color.WHITE);
-                }
+                //클릭 할 수 있는 칸을 2개로 나눔
+                VerticalWalls[i][j] = space(Color.WHITE);
+
             }
         }
         for(int i = 0; i < ROWS-1; i++) {
             for (int j = 0; j < COLS; j++) {
-                for (int k = 0; k < 2; k++) { //클릭 할 수 있는 칸을 2개로 나눔
-                    HorizontalWalls[i][j][k] = space(Color.WHITE);
-                }
+                //클릭 할 수 있는 칸을 2개로 나눔
+                HorizontalWalls[i][j] = space(Color.WHITE);
+
             }
         }
         for(int i = 0; i < ROWS-1; i++) {
