@@ -5,23 +5,29 @@ import main.Client;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseListener;
 
 public class Board extends JFrame{
     static final int ROWS = 9, COLS = 9;
+    public static JButton[][] Spaces = new JButton[ROWS][COLS];
+    public static JButton[][] CenterWalls = new JButton[ROWS-1][COLS-1];
+    public static JButton[][][] VerticalWalls = new JButton[ROWS][COLS-1][2];
+    public static JButton[][][] HorizontalWalls = new JButton[ROWS-1][COLS][2];
 
-    JButton[][] spaces = new JButton[ROWS][COLS];
-    JButton[][] cwalls = new JButton[ROWS-1][COLS-1];
-    JButton[][][] vwalls = new JButton[ROWS][COLS-1][2];
-    JButton[][][] hwalls = new JButton[ROWS-1][COLS][2];
-
+    //2차원 배열 2개 만드셈
 
     private Client client;
     private JButton space(Color bg)
     {
+        Quoridor quoridor = new Quoridor();
         JButton space = new JButton();
         space.setBorder(new EmptyBorder(0,0,0,0));
         space.setBackground(bg);
         space.setForeground(Color.WHITE);
+        space.addActionListener(quoridor);
+        space.addMouseListener(quoridor);
         return space;
     }
 
@@ -32,7 +38,7 @@ public class Board extends JFrame{
 
         for(int i = 0; i < ROWS; i++){
             for(int j = 0; j < COLS  ; j++){
-                grid[2 * i][2 * j] = spaces[i][j];
+                grid[2 * i][2 * j] = Spaces[i][j];
             }
         }
 
@@ -40,7 +46,7 @@ public class Board extends JFrame{
             for(int j = 0; j < COLS-1; j++) {
                 JPanel panel = new JPanel(new GridLayout(2, 1));
                 for (int k = 0; k < 2; k++) {
-                    panel.add(vwalls[i][j][k]);
+                    panel.add(VerticalWalls[i][j][k]);
                 }
                 grid[2 * i][2 * j + 1] = panel;
             }
@@ -50,7 +56,7 @@ public class Board extends JFrame{
             for(int j = 0; j < COLS; j++){
                 JPanel panel = new JPanel(new GridLayout(1,2));
                 for(int k = 0; k < 2; k++){
-                    panel.add(hwalls[i][j][k]);
+                    panel.add(HorizontalWalls[i][j][k]);
                 }
                 grid[2 * i + 1][2 * j] = panel;
             }
@@ -59,7 +65,7 @@ public class Board extends JFrame{
 
         for(int i = 0; i < ROWS-1; i++) {
             for(int j = 0; j < COLS-1; j++){
-                grid[2 * i + 1][2 * j + 1] = cwalls[i][j];
+                grid[2 * i + 1][2 * j + 1] = CenterWalls[i][j];
             }
         }
 
@@ -89,57 +95,38 @@ public class Board extends JFrame{
         layout.setHorizontalGroup(horizontalSequentialGroup);
         layout.setVerticalGroup(verticalSequentialGroup);
 
-        pawn.setPawn(0, spaces[ROWS-1][COLS / 2]); // 말 첫 위치 지정
-        pawn.setPawn(1, spaces[0][COLS / 2]); // 말 첫 위치 지정
+        pawn.setPawn(0, Spaces[ROWS-1][COLS / 2]); // 말 첫 위치 지정
+        pawn.setPawn(1, Spaces[0][COLS / 2]); // 말 첫 위치 지정
 
         setContentPane(pane); //프레임에 content 붙이기
     }
-
 
     private void initialBoardArray(){
 
         for(int i = 0; i < ROWS; i++){
             for(int j = 0; j < COLS; j++){
-                spaces[i][j] = space(Color.BLACK);
+                Spaces[i][j] = space(new Color(150,75,0));
             }
         }
 
         for(int i = 0; i < ROWS ; i++) {
             for (int j = 0; j < COLS - 1; j++) {
                 for (int k = 0; k < 2; k++) { //클릭 할 수 있는 칸을 2개로 나눔
-                    vwalls[i][j][k] = space(Color.WHITE);
+                    VerticalWalls[i][j][k] = space(Color.WHITE);
                 }
             }
         }
         for(int i = 0; i < ROWS-1; i++) {
             for (int j = 0; j < COLS; j++) {
                 for (int k = 0; k < 2; k++) { //클릭 할 수 있는 칸을 2개로 나눔
-                    hwalls[i][j][k] = space(Color.WHITE);
+                    HorizontalWalls[i][j][k] = space(Color.WHITE);
                 }
             }
         }
         for(int i = 0; i < ROWS-1; i++) {
             for (int j = 0; j < COLS - 1; j++) { //클릭 할 수 있는 칸을 2개로 나눔
-                cwalls[i][j] = space(Color.WHITE);
+                CenterWalls[i][j] = space(Color.WHITE);
             }
         }
-    }
-
-    public Board()
-    {
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE); //창 관리자
-        setTitle("쿼리도 게임");
-        setVisible(true); //창 열기
-        setSize(1200,1200);
-        initBoard();
-        client = new Client(5000);
-        client.Write(new Packet(Packet.State.H_Move, 1, 2));
-        System.out.println("실행중");
-    }
-
-    public static void main(String[] args) throws Throwable
-    {
-        UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName()); // UI 디자인 라이브러리
-        Board b = new Board();
     }
 }
