@@ -5,15 +5,15 @@ import java.awt.*;
 
 public class Pawn {
     static final String[] NAMES = {"Player1", "Player2"};
-    JButton[] pawns = new JButton[2];
+    public static JButton[] Pawns = new JButton[2];
 
-    int turn = 0;
-    public void setPawn(int turn, JButton square) {
-        if(pawns[turn] != null) {
-            pawns[turn].setText("");
+    public static void setPawn(int turn, JButton space) {
+        if(Pawns[turn] != null) {
+            Pawns[turn].setText("");
+            Pawns[turn].setBackground(new Color(150, 75, 0));
         }
-        pawns[turn] = square;
-        pawns[turn].setText(NAMES[turn]);
-        pawns[turn].setBackground(Color.gray);
+        Pawns[turn] = space;
+        Pawns[turn].setText(NAMES[turn]);
+        Pawns[turn].setBackground(Color.gray);
     }
 }

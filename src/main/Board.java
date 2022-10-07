@@ -1,4 +1,5 @@
 package main;
+import DB.Packet;
 import main.Client;
 
 import javax.swing.*;
@@ -9,6 +10,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
 
 public class Board extends JFrame{
+    public static int x, y;
     static final int ROWS = 9, COLS = 9;
     public static JButton[][] Spaces = new JButton[ROWS][COLS];
     public static JButton[][] CenterWalls = new JButton[ROWS-1][COLS-1];
@@ -18,11 +20,12 @@ public class Board extends JFrame{
     public static String [][] CheckVwalls = new String[ROWS][COLS];
 
     public static String [][] CheckHwalls = new String[ROWS][COLS];
+
+    private static String [][] test = new String[ROWS][COLS];
     //2차원 배열 2개 만드셈
 
     public static String [][] CheckPawn1 = new String[ROWS][COLS];
     public static String [][] CheckPawn2 = new String[ROWS][COLS];
-
 
     private JButton space(Color bg)
     {
@@ -72,7 +75,6 @@ public class Board extends JFrame{
 
         JPanel pane = new JPanel();
         GroupLayout layout = new GroupLayout(pane);
-        Pawn pawn = new Pawn();
         pane.setLayout(layout);
 
         // layout 배치
@@ -96,8 +98,10 @@ public class Board extends JFrame{
         layout.setHorizontalGroup(horizontalSequentialGroup);
         layout.setVerticalGroup(verticalSequentialGroup);
 
-        pawn.setPawn(0, Spaces[ROWS-1][COLS / 2]); // 말 첫 위치 지정
-        pawn.setPawn(1, Spaces[0][COLS / 2]); // 말 첫 위치 지정
+        Pawn.setPawn(0, Spaces[ROWS-1][COLS / 2]); // 말 첫 위치 지정
+        Pawn.setPawn(1, Spaces[0][COLS / 2]); // 말 첫 위치 지정
+        CheckPawn1[ROWS-1][COLS / 2] = "setPawn";
+        CheckPawn2[0][COLS / 2] = "setPawn";
 
         setContentPane(pane); //프레임에 content 붙이기
     }
