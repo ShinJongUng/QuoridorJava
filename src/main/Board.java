@@ -4,6 +4,7 @@ import main.Client;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import javax.swing.text.JTextComponent;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -73,7 +74,8 @@ public class Board extends JFrame{
                 grid[2 * i + 1][2 * j + 1] = CenterWalls[i][j];
             }
         }
-
+        Container c = getContentPane();
+        c.setLayout(new BorderLayout());
         JPanel pane = new JPanel();
         GroupLayout layout = new GroupLayout(pane);
         pane.setLayout(layout);
@@ -104,7 +106,20 @@ public class Board extends JFrame{
         CheckPawn1[ROWS-1][COLS / 2] = "setPawn";
         CheckPawn2[0][COLS / 2] = "setPawn";
 
-        setContentPane(pane); //프레임에 content 붙이기
+        JPanel mainUI = new JPanel();
+        mainUI.setLayout(new BorderLayout(5, 5));
+        JLabel label = new JLabel("반갑습니다! 쿼리도에 오신 것을 환영합니다!", SwingConstants.CENTER);
+        JPanel topUI = new JPanel();
+        topUI.setLayout(new BorderLayout(5, 5));
+        JButton btn1 = new JButton("나가기 / 항복");
+        JButton btn2 = new JButton("턴 무르기");
+        topUI.add(btn1, BorderLayout.EAST);
+        topUI.add(btn2, BorderLayout.WEST);
+        mainUI.add(label, BorderLayout.CENTER);
+        mainUI.add(topUI, BorderLayout.SOUTH);
+        c.add(mainUI, BorderLayout.EAST);
+        c.add(pane, BorderLayout.CENTER); //프레임에 content 붙이기
+        c.setVisible(true);
     }
 
     private void initialBoardArray(){
