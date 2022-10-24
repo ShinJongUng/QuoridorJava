@@ -8,9 +8,9 @@ public class Main {
         Board b = new Board();
         b.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE); //창 관리자
         b.setTitle("쿼리도 게임");
-        b.setVisible(true); //창 열기
-        b.setSize(1300,1100);
         b.initBoard();
+        b.setSize(1200,1000);
+        b.setVisible(true); //창 열기
     }
     public static void main(String[] args) throws Throwable
     {
