@@ -16,16 +16,19 @@ public class Server {
     Set<SocketChannel> allClient;
     ServerSocketChannel socket;
     public Selector selector;
-    ByteBuffer inputBuffer;
+    private ByteBuffer inputBuffer;
+    PKT_Serialized pt;
     Server(int port) throws IOException{
+        pt = new PKT_Serialized();
+
         allClient = new HashSet<>();
         socket = ServerSocketChannel.open();
-
         socket.bind(new InetSocketAddress(port));
+
         // 논블로킹 형식 변경
         socket.configureBlocking(false);
-
         selector = Selector.open();
+
         // Select 등록
         socket.register(selector, SelectionKey.OP_ACCEPT);
         inputBuffer = ByteBuffer.allocate(1024);
@@ -35,16 +38,30 @@ public class Server {
     void Accept(SelectionKey key) throws IOException{
         ServerSocketChannel s = (ServerSocketChannel)key.channel();
         SocketChannel clientSock = s.accept();
-
         clientSock.configureBlocking(false);
-        // 추가
-        allClient.add(clientSock);
-        clientSock.register(selector, SelectionKey.OP_READ, new Information());
-        System.out.println(clientSock.getLocalAddress());
 
         //테스트 용
-        Packet pk = new Packet(Packet.State.Start, 1, 2);
-        Write(clientSock, pk);
+        Packet pk;
+        Information information = new Information();
+        if(allClient.isEmpty()) {
+            pk = new Packet(0, 1, 2, Packet.State.Start);
+            information.setId(0);
+            information.setX(1);
+            information.setY(2);
+        }
+        else {
+            pk = new Packet(1, 1, 2, Packet.State.Start);
+            information.setId(1);
+            information.setX(1);
+            information.setY(2);
+        }
+
+        // 추가
+        allClient.add(clientSock);
+        clientSock.register(selector, SelectionKey.OP_READ, information);
+        System.out.println(clientSock.getLocalAddress());
+
+        Write(pk);
     }
     void Read(SelectionKey key){
         SocketChannel readSocket = (SocketChannel) key.channel();
@@ -53,8 +70,11 @@ public class Server {
         try {
             readSocket.read(inputBuffer);
             inputBuffer.flip();
-            Packet pk = DeSerialized(Packet.class);
-            System.out.println(pk.isState());
+            Packet pk = pt.DeSerialized(Packet.class, inputBuffer);
+            if(pk.getId() == 0)
+                System.out.println("Host : " + pk.getX() + " " + pk.getY());
+            else
+                System.out.println("Client : " + pk.getX() + " " + pk.getY());
         }
         catch(IOException e){
             key.cancel();
@@ -63,79 +83,24 @@ public class Server {
         }
     }
 
-    void Write(SocketChannel socket, Object data){ //ByteBuffer 전달
+    void Write(Object data){ //ByteBuffer 전달
+        SocketChannel socketChannel = null;
         inputBuffer.clear();
         try {
-            int size = Serialized(data);
+            int size = pt.Serialized(data, inputBuffer);
             for(SocketChannel sock : allClient){
                 inputBuffer.flip();
+                socketChannel = sock;
                 sock.write(inputBuffer);
                 System.out.println(size + " byte 정보 보냄");
             }
         }
         catch(Exception e){
-            allClient.remove(socket);
+            allClient.remove(socketChannel);
             System.out.println("클라이언트와 연결이 종료되었습니다.");
         }
     }
-    public int Serialized(Object obj){
-        byte[] buf = toByteArray(obj);
-        PKT_Header header = new PKT_Header(buf.length);
-        byte[] head = toByteArray(header);
-        inputBuffer.put(head);
-        inputBuffer.put(buf);
 
-        return buf.length;
-    }
-    <T> T DeSerialized(Class<T> type){ //역역직렬화코드 PKT_Header + Object Data
-        try {
-            byte[] byte_Header = new byte[45];
-            inputBuffer.get(byte_Header, 0, 45);
-            PKT_Header header = toObject(byte_Header, PKT_Header.class);
-            System.out.println("입력받은 데이터 : " + header.size);
-
-            byte[] bytes = new byte[header.size];
-            inputBuffer.get(bytes, 0, header.size);
-            return toObject(bytes, type);
-        }
-        catch(Exception e){
-            System.out.println("불가능합니다.");
-            return null;
-        }
-    }
-    public static byte[] toByteArray (Object obj)
-    {
-        byte[] bytes = null;
-        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        try {
-            ObjectOutputStream oos = new ObjectOutputStream(bos);
-            oos.writeObject(obj);
-            oos.flush();
-            oos.close();
-            bos.close();
-            bytes = bos.toByteArray();
-        }
-        catch (IOException ex) {
-            System.out.println("변경 실패0");
-        }
-        return bytes;
-    }
-    public static <T> T toObject (byte[] bytes, Class<T> type)
-    {
-        Object obj = null;
-        try {
-            ByteArrayInputStream bis = new ByteArrayInputStream (bytes);
-            ObjectInputStream ois = new ObjectInputStream (bis);
-            obj = ois.readObject();
-        }
-        catch (IOException ex) {
-            System.out.println("변경 실패1");
-        }
-        catch (ClassNotFoundException ex) {
-            System.out.println("변경 실패2");
-        }
-        return type.cast(obj);
-    }
     public static void main(String[] args) throws IOException{
         Server server= new Server(5000);
 
@@ -143,7 +108,6 @@ public class Server {
             server.selector.select();
 
             Iterator<SelectionKey> iterator = server.selector.selectedKeys().iterator();
-
             while(iterator.hasNext()){
                 SelectionKey key = iterator.next();
                 iterator.remove();
