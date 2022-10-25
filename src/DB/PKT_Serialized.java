@@ -10,14 +10,12 @@ public class PKT_Serialized {
         byte[] head = PKT_Serialized.toByteArray(header);
         headerSize = head.length;
     }
-    public int Serialized(Object obj, ByteBuffer inputBuffer){
+    public void Serialized(Object obj, ByteBuffer inputBuffer){
         byte[] buf = toByteArray(obj);
         PKT_Header header = new PKT_Header(buf.length);
         byte[] head = toByteArray(header);
         inputBuffer.put(head);
         inputBuffer.put(buf);
-
-        return buf.length;
     }
     public <T> T DeSerialized(Class<T> type, ByteBuffer inputBuffer){ //역역직렬화코드 PKT_Header + Object Data
         try {

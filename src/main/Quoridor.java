@@ -309,15 +309,13 @@ public class Quoridor extends JFrame implements MouseListener, ActionListener{
         List<Integer> select_space = getSquare(event.getSource());
         List<Integer> select_verticalWall = getVerticalWall(event.getSource());
         List<Integer> select_horizontalWall = getHorizontalWall(event.getSource());
-
         if (select_space != null) {
             System.out.println("(" + (select_space.get(1) + 1) + "," + (select_space.get(0) + 1) + ")");
             canMovePawn(event);
             deletePawnSet(event);
-        }
-        else if(select_verticalWall != null) {
-            if(select_verticalWall.get(0) + 1 >= ROWS){
-                if(CheckVwalls[select_verticalWall.get(0)][select_verticalWall.get(1)] != "Checked" && CheckVwalls[select_verticalWall.get(0) - 1][select_verticalWall.get(1)] != "Checked"){
+        } else if (select_verticalWall != null) {
+            if (select_verticalWall.get(0) + 1 >= ROWS) {
+                if (CheckVwalls[select_verticalWall.get(0)][select_verticalWall.get(1)] != "Checked" && CheckVwalls[select_verticalWall.get(0) - 1][select_verticalWall.get(1)] != "Checked") {
                     setVerticalWall(select_verticalWall.get(0) - 1, select_verticalWall.get(1));
 
                     System.out.println("(" + (select_verticalWall.get(1) + 1 + "," + (select_verticalWall.get(0) + 1)) + ")," + "(" + (select_verticalWall.get(1) + 1 + "," + (select_verticalWall.get(0) + 2)) + ")"); // to do
@@ -325,8 +323,7 @@ public class Quoridor extends JFrame implements MouseListener, ActionListener{
                     CheckVwalls[select_verticalWall.get(0)][select_verticalWall.get(1)] = "Checked";
                     CheckVwalls[select_verticalWall.get(0) - 1][select_verticalWall.get(1)] = "Checked";
                 }
-            }
-            else if(CheckVwalls[select_verticalWall.get(0)][select_verticalWall.get(1)] != "Checked" && CheckVwalls[select_verticalWall.get(0) + 1][select_verticalWall.get(1)] != "Checked"){
+            } else if (CheckVwalls[select_verticalWall.get(0)][select_verticalWall.get(1)] != "Checked" && CheckVwalls[select_verticalWall.get(0) + 1][select_verticalWall.get(1)] != "Checked") {
                 setVerticalWall(select_verticalWall.get(0), select_verticalWall.get(1));
 
                 System.out.println("(" + (select_verticalWall.get(1) + 1 + "," + (select_verticalWall.get(0) + 1)) + ")," + "(" + (select_verticalWall.get(1) + 1 + "," + (select_verticalWall.get(0) + 2)) + ")"); // to do
@@ -334,9 +331,9 @@ public class Quoridor extends JFrame implements MouseListener, ActionListener{
                 CheckVwalls[select_verticalWall.get(0)][select_verticalWall.get(1)] = "Checked";
                 CheckVwalls[select_verticalWall.get(0) + 1][select_verticalWall.get(1)] = "Checked";
             }
-        }else if(select_horizontalWall != null){
-            if(select_horizontalWall.get(1) + 1 >= COLS){
-                if(CheckHwalls[select_horizontalWall.get(0)][select_horizontalWall.get(1)] != "Checked" && CheckHwalls[select_horizontalWall.get(0)][select_horizontalWall.get(1) - 1] != "Checked"){
+        } else if (select_horizontalWall != null) {
+            if (select_horizontalWall.get(1) + 1 >= COLS) {
+                if (CheckHwalls[select_horizontalWall.get(0)][select_horizontalWall.get(1)] != "Checked" && CheckHwalls[select_horizontalWall.get(0)][select_horizontalWall.get(1) - 1] != "Checked") {
                     setHorizontalWall(select_horizontalWall.get(0), select_horizontalWall.get(1) - 1);
 
                     System.out.println("(" + (select_horizontalWall.get(1) + 1 + "," + (select_horizontalWall.get(0) + 1)) + ")," + "(" + (select_horizontalWall.get(1) + 2 + "," + (select_horizontalWall.get(0) + 1)) + ")"); // to do
@@ -344,8 +341,7 @@ public class Quoridor extends JFrame implements MouseListener, ActionListener{
                     CheckHwalls[select_horizontalWall.get(0)][select_horizontalWall.get(1)] = "Checked";
                     CheckHwalls[select_horizontalWall.get(0)][select_horizontalWall.get(1) - 1] = "Checked";
                 }
-            }
-            else if( CheckHwalls[select_horizontalWall.get(0)][select_horizontalWall.get(1)] != "Checked" && CheckHwalls[select_horizontalWall.get(0)][select_horizontalWall.get(1) + 1] != "Checked"){
+            } else if (CheckHwalls[select_horizontalWall.get(0)][select_horizontalWall.get(1)] != "Checked" && CheckHwalls[select_horizontalWall.get(0)][select_horizontalWall.get(1) + 1] != "Checked") {
                 setHorizontalWall(select_horizontalWall.get(0), select_horizontalWall.get(1));
 
                 System.out.println("(" + (select_horizontalWall.get(0) + 1 + "," + (select_horizontalWall.get(1) + 1)) + ")," + "(" + (select_horizontalWall.get(1) + 2 + "," + (select_horizontalWall.get(0) + 1)) + ")"); //to do
@@ -353,7 +349,7 @@ public class Quoridor extends JFrame implements MouseListener, ActionListener{
                 CheckHwalls[select_horizontalWall.get(0)][select_horizontalWall.get(1)] = "Checked";
                 CheckHwalls[select_horizontalWall.get(0)][select_horizontalWall.get(1) + 1] = "Checked";
             }
-        }else {
+        } else {
             System.out.println("확인되지 않은 플레이");
         }
     }

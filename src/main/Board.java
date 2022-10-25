@@ -1,5 +1,7 @@
 package main;
+import DB.Information;
 import DB.Packet;
+import jdk.dynalink.beans.StaticClass;
 import main.Client;
 
 import javax.swing.*;
@@ -29,6 +31,8 @@ public class Board extends JFrame{
     public static String [][] CheckPawn1 = new String[ROWS][COLS];
     public static String [][] CheckPawn2 = new String[ROWS][COLS];
 
+    public static Client client; // 소켓 통신
+    public static Information information;
     private JButton space(Color bg)
     {
         Quoridor quoridor = new Quoridor();
@@ -41,8 +45,11 @@ public class Board extends JFrame{
         return space;
     }
 
-    public void initBoard()
+    public void initBoard(int id)
     {
+        client = new Client(5000);
+        client.Write(new Packet(id, 9, 9, Packet.State.Start, false));
+
         initialBoardArray();
         Component[][] grid = new Component[2 * ROWS - 1][2 * COLS - 1];
 
@@ -134,7 +141,6 @@ public class Board extends JFrame{
             for (int j = 0; j < COLS - 1; j++) {
                 //클릭 할 수 있는 칸을 2개로 나눔
                 VerticalWalls[i][j] = space(Color.WHITE);
-
             }
         }
         for(int i = 0; i < ROWS-1; i++) {

@@ -18,6 +18,7 @@ public class Server {
     public Selector selector;
     private ByteBuffer inputBuffer;
     PKT_Serialized pt;
+
     Server(int port) throws IOException{
         pt = new PKT_Serialized();
 
@@ -44,17 +45,15 @@ public class Server {
         Packet pk;
         Information information = new Information();
         if(allClient.isEmpty()) {
-            pk = new Packet(0, 1, 2, Packet.State.Start);
+            pk = new Packet(0, 1, 2, Packet.State.Start, false);
             information.setId(0);
-            information.setX(1);
-            information.setY(2);
         }
         else {
-            pk = new Packet(1, 1, 2, Packet.State.Start);
+            pk = new Packet(1, 1, 2, Packet.State.Start, false);
             information.setId(1);
-            information.setX(1);
-            information.setY(2);
         }
+        information.setX(1);
+        information.setY(2);
 
         // 추가
         allClient.add(clientSock);
@@ -71,10 +70,25 @@ public class Server {
             readSocket.read(inputBuffer);
             inputBuffer.flip();
             Packet pk = pt.DeSerialized(Packet.class, inputBuffer);
-            if(pk.getId() == 0)
+            if(pk.getState() == Packet.State.Start){
+                if(pk.getId() == 0){
+                    pk.setX(4);
+                    pk.setY(0);
+                }
+                else{
+                    pk.setX(4);
+                    pk.setY(8);
+                }
+            }
+            else if(pk.getId() == 0) {
                 System.out.println("Host : " + pk.getX() + " " + pk.getY());
-            else
+            }
+            else {
                 System.out.println("Client : " + pk.getX() + " " + pk.getY());
+            }
+            info.setX(pk.getX());
+            info.setY(pk.getY());
+            Write(pk);
         }
         catch(IOException e){
             key.cancel();
@@ -87,12 +101,12 @@ public class Server {
         SocketChannel socketChannel = null;
         inputBuffer.clear();
         try {
-            int size = pt.Serialized(data, inputBuffer);
+            pt.Serialized(data, inputBuffer);
             for(SocketChannel sock : allClient){
                 inputBuffer.flip();
                 socketChannel = sock;
                 sock.write(inputBuffer);
-                System.out.println(size + " byte 정보 보냄");
+                System.out.println("정보 보냄");
             }
         }
         catch(Exception e){
