@@ -4,8 +4,8 @@ import DB.Packet;
 
 import javax.swing.*;
 
-public class Main {
-    public Main()
+public class User2 {
+    public User2()
     {
         Board b = new Board();
         b.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE); //창 관리자
@@ -17,8 +17,10 @@ public class Main {
     public static void main(String[] args) throws Throwable
     {
         Client c = new Client(5000);
-//        c.Write(new Packet(1, 2, Packet.State.H_Move));
+        c.Write(new Packet(1, 1, 2, Packet.State.H_Move));
+        c.Read();
+
         UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName()); // UI 디자인 라이브러리
-        Main m = new Main();
+        User2 m = new User2();
     }
 }

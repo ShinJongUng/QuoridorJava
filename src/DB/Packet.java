@@ -10,14 +10,18 @@ public class Packet implements Serializable{
         C_Move,
         C_Wall,
     }
-    private State state;
     private int x, y;
-    public Packet(State state, int x, int y){
-        this.state = state;
+    private State state;
+    private int id;
+    public Packet(int id, int x, int y, Packet.State state){
+        this.id = id;
         this.x = x;
         this.y = y;
+        this.state = state;
     }
-    public State isState(){
-        return state;
-    }
+    public int getX(){ return this.x; }
+    public int getY(){ return this.y; }
+    public int getId(){ return id; }
+    public State getState(){ return state; }
+
 }
