@@ -11,6 +11,14 @@ public class Information{
     private int x = 0;  // 말 X 좌표
     private int y = 0;  // 말 Y 좌표
     private boolean myTurn = false; // 턴 확인
+
+    public boolean isStartGame() {
+        return startGame;
+    }
+    public void setStartGame(boolean startGame) {
+        this.startGame = startGame;
+    }
+    private boolean startGame = false;
     public void changeTurn() { myTurn = myTurn ? false : true;}
 
     public boolean isTurn() { return myTurn; }

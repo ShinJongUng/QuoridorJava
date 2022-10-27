@@ -5,10 +5,9 @@ public class Packet implements Serializable{
     private static final long serialVersionUID = 1L;
     public enum State{
         Start,
-        H_Move,
-        H_Wall,
-        C_Move,
-        C_Wall,
+        Move,
+        Vertical_Wall,
+        Horizontal_Wall
     }
     private int x, y;
     private State state;

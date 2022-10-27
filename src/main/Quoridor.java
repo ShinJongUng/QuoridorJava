@@ -27,7 +27,6 @@ public class Quoridor extends JFrame implements MouseListener, ActionListener{
         Board.VerticalWalls[r][c].setBackground(Color.orange);
         Board.CenterWalls[r][c].setBackground(Color.orange);
     }
-
     private void setHorizontalWall(int r, int c){
         Board.HorizontalWalls[r][c + 1].setBackground(Color.orange); // 누른곳 오른쪽
         Board.HorizontalWalls[r][c].setBackground(Color.orange); // 누른곳
@@ -309,6 +308,7 @@ public class Quoridor extends JFrame implements MouseListener, ActionListener{
         List<Integer> select_space = getSquare(event.getSource());
         List<Integer> select_verticalWall = getVerticalWall(event.getSource());
         List<Integer> select_horizontalWall = getHorizontalWall(event.getSource());
+
         if (select_space != null) {
             System.out.println("(" + (select_space.get(1) + 1) + "," + (select_space.get(0) + 1) + ")");
             canMovePawn(event);

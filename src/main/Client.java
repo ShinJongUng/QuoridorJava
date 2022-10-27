@@ -22,6 +22,7 @@ public class Client extends Information{
             System.out.println("서버와 연결이 종료되었습니다.");
         }
     }
+    //칸 이동 또는 벽 생성 후 서버에게 전달.
     public void Write(Packet pk){
         try {
             buffer.clear();
@@ -42,19 +43,27 @@ public class Client extends Information{
             buffer.flip();
             Packet pk = pt.DeSerialized(Packet.class, buffer);
             System.out.println(pk.getState() + " " + pk.getX() + " " + pk.getY());
+
+            // 게임 접속
             if(getMyId() == -1) {
                 setId(pk.getId());
-                setX(pk.getX());
-                setY(pk.getY());
-            }else if(pk.isTurn() && pk.getId() != getMyId() && !isTurn()){
-                if(pk.getState() == Packet.State.H_Move && pk.getState() == Packet.State.C_Move){
+                if(getMyId() == 1)
+                    setStartGame(true);
+            }// 게임 시작(적 접속 확인) -> 호스트가 먼저 턴
+            else if(!isStartGame()) {
+                setStartGame(true);
+                changeTurn();
+            }// 적 행동
+            else if(pk.isTurn() && pk.getId() != getMyId() && !isTurn()) {
+                if (pk.getState() == Packet.State.Move) {
                     //이동하는 행동 - 적이 시행
-                }
-                else if(pk.getState() == Packet.State.H_Wall && pk.getState() == Packet.State.C_Wall){
+                } else if (pk.getState() == Packet.State.Horizontal_Wall) {
+                    //벽 생성 - 적이 시행
+                } else if (pk.getState() == Packet.State.Vertical_Wall) {
                     //벽 생성 - 적이 시행
                 }
                 changeTurn();
-            }
+            }// 오류, 다시 Read()
             else
                 Read();
         }

@@ -20,19 +20,12 @@ public class Board extends JFrame{
     public static JButton[][] CenterWalls = new JButton[ROWS-1][COLS-1];
     public static JButton[][] VerticalWalls = new JButton[ROWS][COLS-1];
     public static JButton[][] HorizontalWalls = new JButton[ROWS-1][COLS];
-
     public static String [][] CheckVwalls = new String[ROWS][COLS];
-
     public static String [][] CheckHwalls = new String[ROWS][COLS];
-
-    private static String [][] test = new String[ROWS][COLS];
-    //2차원 배열 2개 만드셈
-
     public static String [][] CheckPawn1 = new String[ROWS][COLS];
     public static String [][] CheckPawn2 = new String[ROWS][COLS];
 
     public static Client client; // 소켓 통신
-    public static Information information;
     private JButton space(Color bg)
     {
         Quoridor quoridor = new Quoridor();
@@ -45,10 +38,9 @@ public class Board extends JFrame{
         return space;
     }
 
-    public void initBoard(int id)
+    public void initBoard()
     {
         client = new Client(5000);
-        client.Write(new Packet(id, 9, 9, Packet.State.Start, false));
 
         initialBoardArray();
         Component[][] grid = new Component[2 * ROWS - 1][2 * COLS - 1];
@@ -108,8 +100,15 @@ public class Board extends JFrame{
         layout.setHorizontalGroup(horizontalSequentialGroup);
         layout.setVerticalGroup(verticalSequentialGroup);
 
+        if(client.getMyId() == 0)
+            client.setX(ROWS-1);
+        else
+            client.setX(0);
+        client.setY(COLS/2);
+
         Pawn.setPawn(0, Spaces[ROWS-1][COLS / 2]); // 말 첫 위치 지정
         Pawn.setPawn(1, Spaces[0][COLS / 2]); // 말 첫 위치 지정
+
         CheckPawn1[ROWS-1][COLS / 2] = "setPawn";
         CheckPawn2[0][COLS / 2] = "setPawn";
 
