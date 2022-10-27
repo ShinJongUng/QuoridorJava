@@ -45,11 +45,11 @@ public class Server {
         Packet pk;
         Information information = new Information();
         if(allClient.isEmpty()) {
-            pk = new Packet(0, 1, 2, Packet.State.Start, false);
+            pk = new Packet(0, 4, 0, Packet.State.Start, false);
             information.setId(0);
         }
         else {
-            pk = new Packet(1, 1, 2, Packet.State.Start, false);
+            pk = new Packet(1, 4, 8, Packet.State.Start, false);
             information.setId(1);
         }
         information.setX(1);
@@ -70,17 +70,7 @@ public class Server {
             readSocket.read(inputBuffer);
             inputBuffer.flip();
             Packet pk = pt.DeSerialized(Packet.class, inputBuffer);
-            if(pk.getState() == Packet.State.Start){
-                if(pk.getId() == 0){
-                    pk.setX(4);
-                    pk.setY(0);
-                }
-                else{
-                    pk.setX(4);
-                    pk.setY(8);
-                }
-            }
-            else if(pk.getId() == 0) {
+            if(pk.getId() == 0) {
                 System.out.println("Host : " + pk.getX() + " " + pk.getY());
             }
             else {
