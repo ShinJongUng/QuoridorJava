@@ -37,7 +37,14 @@ public class Quoridor extends JFrame implements MouseListener, ActionListener{
         List<Integer> select_space = getSquare(e.getSource());
         if (CheckPawn1[select_space.get(0)][select_space.get(1)] == "setPawn") {
             if (select_space.get(0) + 1 >= ROWS) {
-                if (select_space.get(1) + 1 >= COLS) {
+                if(CheckHwalls[select_space.get(0) - 1][select_space.get(1)] == "Checked" && select_space.get(1) + 1 >= COLS) {
+                    Spaces[select_space.get(0)][select_space.get(0) - 1].setBackground(Color.gray);
+
+                    CheckPawn1[select_space.get(1)][select_space.get(0) - 1] = "cango";
+
+                    x = select_space.get(0);
+                    y = select_space.get(1);
+                }else if (select_space.get(1) + 1 >= COLS) {
                     Spaces[select_space.get(0) - 1][select_space.get(0)].setBackground(Color.gray);
                     Spaces[select_space.get(0)][select_space.get(0) - 1].setBackground(Color.gray);
 
@@ -46,12 +53,29 @@ public class Quoridor extends JFrame implements MouseListener, ActionListener{
 
                     x = select_space.get(0);
                     y = select_space.get(1);
-                } else if (select_space.get(1) - 1 < 0) {
+                }else if(CheckHwalls[select_space.get(0) - 1][select_space.get(1)] == "Checked" && select_space.get(1) - 1 < 0) {
+                    Spaces[select_space.get(0)][select_space.get(1) + 1].setBackground(Color.gray);
+
+                    CheckPawn1[select_space.get(0)][select_space.get(1) + 1] = "cango";
+
+                    x = select_space.get(0);
+                    y = select_space.get(1);
+                }
+                else if (select_space.get(1) - 1 < 0) {
                     Spaces[select_space.get(0) - 1][select_space.get(1)].setBackground(Color.gray);
                     Spaces[select_space.get(0)][select_space.get(1) + 1].setBackground(Color.gray);
 
                     CheckPawn1[select_space.get(0) - 1][select_space.get(1)] = "cango";
                     CheckPawn1[select_space.get(0)][select_space.get(1) + 1] = "cango";
+
+                    x = select_space.get(0);
+                    y = select_space.get(1);
+                }else if(CheckHwalls[select_space.get(0) - 1][select_space.get(1)] == "Checked") {
+                    Spaces[select_space.get(0)][select_space.get(1) + 1].setBackground(Color.gray);
+                    Spaces[select_space.get(0)][select_space.get(1) - 1].setBackground(Color.gray);
+
+                    CheckPawn1[select_space.get(0)][select_space.get(1) + 1] = "cango";
+                    CheckPawn1[select_space.get(0)][select_space.get(1) - 1] = "cango";
 
                     x = select_space.get(0);
                     y = select_space.get(1);
@@ -135,6 +159,7 @@ public class Quoridor extends JFrame implements MouseListener, ActionListener{
                 y = select_space.get(1);
             }
         }
+
     }
 
     private void deletePawnSet(ActionEvent event) {
@@ -212,14 +237,14 @@ public class Quoridor extends JFrame implements MouseListener, ActionListener{
                 } else if (y - 1 < 0) {
                     Pawn.setPawn(0, (JButton) event.getSource());
                     //회색 칠 지우기
-                    Spaces[x - 1][y].setBackground(new Color(150, 75, 0));
+                    Spaces[x + 1][y].setBackground(new Color(150, 75, 0));
                     Spaces[x][y + 1].setBackground(new Color(150, 75, 0));
 
                     //setPawn 자리 색칠
                     Spaces[select_space.get(0)][select_space.get(1)].setBackground(Color.gray);
 
                     //cango 지우기
-                    CheckPawn1[x - 1][y] = "";
+                    CheckPawn1[x + 1][y] = "";
                     CheckPawn1[x][y + 1] = "";
 
                     CheckPawn1[x][y] = ""; // setPawn 지우기
@@ -344,7 +369,7 @@ public class Quoridor extends JFrame implements MouseListener, ActionListener{
             } else if (CheckHwalls[select_horizontalWall.get(0)][select_horizontalWall.get(1)] != "Checked" && CheckHwalls[select_horizontalWall.get(0)][select_horizontalWall.get(1) + 1] != "Checked") {
                 setHorizontalWall(select_horizontalWall.get(0), select_horizontalWall.get(1));
 
-                System.out.println("(" + (select_horizontalWall.get(0) + 1 + "," + (select_horizontalWall.get(1) + 1)) + ")," + "(" + (select_horizontalWall.get(1) + 2 + "," + (select_horizontalWall.get(0) + 1)) + ")"); //to do
+                System.out.println("(" + (select_horizontalWall.get(1) + 1 + "," + (select_horizontalWall.get(0) + 1)) + ")," + "(" + (select_horizontalWall.get(1) + 2 + "," + (select_horizontalWall.get(0) + 1)) + ")"); //to do
 
                 CheckHwalls[select_horizontalWall.get(0)][select_horizontalWall.get(1)] = "Checked";
                 CheckHwalls[select_horizontalWall.get(0)][select_horizontalWall.get(1) + 1] = "Checked";
