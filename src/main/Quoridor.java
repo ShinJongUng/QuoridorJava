@@ -26,25 +26,24 @@ public class Quoridor extends JFrame implements MouseListener, ActionListener{
         Board.VerticalWalls[r + 1][c].setBackground(Color.orange); // 누른곳 밑
         Board.VerticalWalls[r][c].setBackground(Color.orange);
         Board.CenterWalls[r][c].setBackground(Color.orange);
+        System.out.println(r+""+ c);
     }
     private void setHorizontalWall(int r, int c){
         Board.HorizontalWalls[r][c + 1].setBackground(Color.orange); // 누른곳 오른쪽
         Board.HorizontalWalls[r][c].setBackground(Color.orange); // 누른곳
         Board.CenterWalls[r][c].setBackground(Color.orange); // 가운데
+        System.out.println(r+""+ c);
     }
 
     private void canMovePawn(ActionEvent e){
         List<Integer> select_space = getSquare(e.getSource());
+        //84 me, 73, 74
+        System.out.println(select_space.get(0) + "" + select_space.get(1));
+
         if (CheckPawn1[select_space.get(0)][select_space.get(1)] == "setPawn") {
+
             if (select_space.get(0) + 1 >= ROWS) {
-                if(CheckHwalls[select_space.get(0) - 1][select_space.get(1)] == "Checked" && select_space.get(1) + 1 >= COLS) {
-                    Spaces[select_space.get(0)][select_space.get(0) - 1].setBackground(Color.gray);
-
-                    CheckPawn1[select_space.get(1)][select_space.get(0) - 1] = "cango";
-
-                    x = select_space.get(0);
-                    y = select_space.get(1);
-                }else if (select_space.get(1) + 1 >= COLS) {
+                if (select_space.get(1) + 1 >= COLS) {
                     Spaces[select_space.get(0) - 1][select_space.get(0)].setBackground(Color.gray);
                     Spaces[select_space.get(0)][select_space.get(0) - 1].setBackground(Color.gray);
 
@@ -53,29 +52,12 @@ public class Quoridor extends JFrame implements MouseListener, ActionListener{
 
                     x = select_space.get(0);
                     y = select_space.get(1);
-                }else if(CheckHwalls[select_space.get(0) - 1][select_space.get(1)] == "Checked" && select_space.get(1) - 1 < 0) {
-                    Spaces[select_space.get(0)][select_space.get(1) + 1].setBackground(Color.gray);
-
-                    CheckPawn1[select_space.get(0)][select_space.get(1) + 1] = "cango";
-
-                    x = select_space.get(0);
-                    y = select_space.get(1);
-                }
-                else if (select_space.get(1) - 1 < 0) {
+                } else if (select_space.get(1) - 1 < 0) {
                     Spaces[select_space.get(0) - 1][select_space.get(1)].setBackground(Color.gray);
                     Spaces[select_space.get(0)][select_space.get(1) + 1].setBackground(Color.gray);
 
                     CheckPawn1[select_space.get(0) - 1][select_space.get(1)] = "cango";
                     CheckPawn1[select_space.get(0)][select_space.get(1) + 1] = "cango";
-
-                    x = select_space.get(0);
-                    y = select_space.get(1);
-                }else if(CheckHwalls[select_space.get(0) - 1][select_space.get(1)] == "Checked") {
-                    Spaces[select_space.get(0)][select_space.get(1) + 1].setBackground(Color.gray);
-                    Spaces[select_space.get(0)][select_space.get(1) - 1].setBackground(Color.gray);
-
-                    CheckPawn1[select_space.get(0)][select_space.get(1) + 1] = "cango";
-                    CheckPawn1[select_space.get(0)][select_space.get(1) - 1] = "cango";
 
                     x = select_space.get(0);
                     y = select_space.get(1);
@@ -158,8 +140,28 @@ public class Quoridor extends JFrame implements MouseListener, ActionListener{
                 x = select_space.get(0);
                 y = select_space.get(1);
             }
-        }
+            if(select_space.get(1) > 0){
+                if(CheckVwalls[select_space.get(0)][select_space.get(1) - 1] == "Checked"){
+                    Spaces[select_space.get(0)][select_space.get(1) -1].setBackground(new Color(150, 75, 0));
+                    CheckPawn1[select_space.get(0)][select_space.get(1) -1] = "";
+                }
+            }
+            if(CheckVwalls[select_space.get(0)][select_space.get(1)] == "Checked"){
+                Spaces[select_space.get(0)][select_space.get(1)+1].setBackground(new Color(150, 75, 0));
+                CheckPawn1[select_space.get(0)][select_space.get(1) + 1] = "";
+            }
+            if(select_space.get(0) > 0){
+                if(CheckHwalls[select_space.get(0)-1][select_space.get(1)] == "Checked"){
+                    Spaces[select_space.get(0)-1][select_space.get(1)].setBackground(new Color(150, 75, 0));
+                    CheckPawn1[select_space.get(0)-1][select_space.get(1)] = "";
+                }
+            }
 
+            if(CheckHwalls[select_space.get(0)][select_space.get(1)] == "Checked"){
+                Spaces[select_space.get(0)+1][select_space.get(1)].setBackground(new Color(150, 75, 0));
+                CheckPawn1[select_space.get(0)+1][select_space.get(1)] = "";
+            }
+        }
     }
 
     private void deletePawnSet(ActionEvent event) {

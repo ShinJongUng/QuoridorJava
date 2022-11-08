@@ -25,7 +25,7 @@ public class Board extends JFrame{
     public static String [][] CheckPawn1 = new String[ROWS][COLS];
     public static String [][] CheckPawn2 = new String[ROWS][COLS];
 
-    public static Client client; // 소켓 통신
+    //public static Client client; // 소켓 통신
     private JButton space(Color bg)
     {
         Quoridor quoridor = new Quoridor();
@@ -40,7 +40,7 @@ public class Board extends JFrame{
 
     public void initBoard()
     {
-        client = new Client(5000);
+        //client = new Client(5000);
 
         initialBoardArray();
         Component[][] grid = new Component[2 * ROWS - 1][2 * COLS - 1];
@@ -90,9 +90,9 @@ public class Board extends JFrame{
             {
                 // 칸은 사이즈 90으로 막는 줄은 20으로
                 horizontalParallelGroup.addComponent(grid[i][j], GroupLayout.PREFERRED_SIZE,
-                        (i % 2 == 0) ? 90 : 20 , GroupLayout.PREFERRED_SIZE);
+                        (i % 2 == 0) ? 60 : 15 , GroupLayout.PREFERRED_SIZE);
                 verticalParallelGroup.addComponent(grid[j][i], GroupLayout.PREFERRED_SIZE,
-                        (i % 2 == 0) ? 90 : 20, GroupLayout.PREFERRED_SIZE);
+                        (i % 2 == 0) ? 60 : 15, GroupLayout.PREFERRED_SIZE);
             }
             verticalSequentialGroup.addGroup(horizontalParallelGroup);
             horizontalSequentialGroup.addGroup(verticalParallelGroup);
@@ -100,11 +100,11 @@ public class Board extends JFrame{
         layout.setHorizontalGroup(horizontalSequentialGroup);
         layout.setVerticalGroup(verticalSequentialGroup);
 
-        if(client.getMyId() == 0)
-            client.setX(ROWS-1);
-        else
-            client.setX(0);
-        client.setY(COLS/2);
+//        if(client.getMyId() == 0)
+//            client.setX(ROWS-1);
+//        else
+//            client.setX(0);
+//        client.setY(COLS/2);
 
         Pawn.setPawn(0, Spaces[ROWS-1][COLS / 2]); // 말 첫 위치 지정
         Pawn.setPawn(1, Spaces[0][COLS / 2]); // 말 첫 위치 지정

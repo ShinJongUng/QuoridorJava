@@ -12,9 +12,7 @@ public class Main {
         b.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE); //창 관리자
         b.setTitle("쿼리도 게임");
         b.initBoard();
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        System.out.println("화면 해상도 : " + screenSize.width + " x " + screenSize.height);
-        b.setSize(screenSize.width,screenSize.height);
+        b.setSize(900,690);
         b.setVisible(true); //창 열기
     }
     public static void main(String[] args) throws Throwable
