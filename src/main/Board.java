@@ -14,7 +14,7 @@ import java.awt.event.MouseListener;
 
 public class Board extends JFrame{
     // 보드
-    public static int x, y;
+    public static int x, y, walld, player_checked_state = 0;
     static final int ROWS = 9, COLS = 9;
     public static JButton[][] Spaces = new JButton[ROWS][COLS];
     public static JButton[][] CenterWalls = new JButton[ROWS-1][COLS-1];
@@ -25,7 +25,7 @@ public class Board extends JFrame{
     public static String [][] CheckPawn1 = new String[ROWS][COLS];
     public static String [][] CheckPawn2 = new String[ROWS][COLS];
 
-    //public static Client client; // 소켓 통신
+    public static Client client; // 소켓 통신
     private JButton space(Color bg)
     {
         Quoridor quoridor = new Quoridor();
