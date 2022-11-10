@@ -11,7 +11,8 @@ import java.util.List;
 import java.util.*;
 import static java.util.Arrays.*;
 import static main.Board.*;
-import static main.Board.CheckHwalls;
+import static main.Board.y;
+
 import main.Pawn.*;
 import DB.*;
 
@@ -21,13 +22,11 @@ public class Quoridor extends JFrame implements ActionListener{
         Board.VerticalWalls[r + 1][c].setBackground(Color.orange); // 누른곳 밑
         Board.VerticalWalls[r][c].setBackground(Color.orange);
         Board.CenterWalls[r][c].setBackground(Color.orange);
-        System.out.println(r+""+ c);
     }
     public void setHorizontalWall(int r, int c){
         Board.HorizontalWalls[r][c + 1].setBackground(Color.orange); // 누른곳 오른쪽
         Board.HorizontalWalls[r][c].setBackground(Color.orange); // 누른곳
         Board.CenterWalls[r][c].setBackground(Color.orange); // 가운데
-        System.out.println(r+""+ c);
     }
 
     public void CreateVerticalWall(int x, int y, boolean turn){
@@ -180,6 +179,7 @@ public class Quoridor extends JFrame implements ActionListener{
 
     public void canMovePawn2(int pawn2x, int pawn2y) {
         if (player_checked_state == 0) {
+            System.out.println("작동");
             if (CheckPawn2[pawn2x][pawn2y] == "setPawn") {
                  if (pawn2x - 1 < 0) {
                     if (pawn2y + 1 >= COLS) {
@@ -400,12 +400,12 @@ public class Quoridor extends JFrame implements ActionListener{
                     CheckPawn1[pawn1x][pawn1y] = "setPawn";
                 }
                 walld = 0;
-                Main.client.Write(new Packet(Main.client.getMyId(), x, y, Packet.State.Move, Main.client.isTurn()));
+                Main.client.Write(new Packet(Main.client.getMyId(), pawn1x, pawn1y, Packet.State.Move, Main.client.isTurn()));
             }
     }
 
     public void deletePawnSet2(int pawn2x, int pawn2y) {
-        if (CheckPawn2[pawn2x][pawn2y] == "cango" || CheckPawn2[pawn2x][pawn2y] == "setPawn") {
+        if (CheckPawn2[pawn2x][pawn2y] == "cango") {
             if (x - 1 < 0) {
                 if (y + 1 >= COLS) {
                     Pawn.setPawn(1, pawn2x, pawn2y);
@@ -516,19 +516,19 @@ public class Quoridor extends JFrame implements ActionListener{
                 CheckPawn2[pawn2x][pawn2y] = "setPawn";
             }
             walld = 0;
-            Main.client.Write(new Packet(Main.client.getMyId(), x, y, Packet.State.Move, Main.client.isTurn()));
+            Main.client.Write(new Packet(Main.client.getMyId(), pawn2x, pawn2y, Packet.State.Move, Main.client.isTurn()));
         }
     }
 
-    public void Enemy_Move(int x, int y, int ID) {
-        Pawn.setPawn(ID, x, y);
-        Spaces[x][y].setBackground(Color.gray);
+    public void Enemy_Move(int px, int py, int ID) {
+        Pawn.setPawn(ID, px, py);
+        Spaces[px][py].setBackground(Color.gray);
         if (ID == 0) {
-            CheckPawn1[x][y] = "setPawn";
-            System.out.println("x : " + x + " y : " + y + CheckPawn1[x][y]);
+            CheckPawn1[x][y] = ""; // setPawn 지우기
+            CheckPawn1[px][py] = "setPawn";
         }else if (ID == 1) {
-            CheckPawn2[x][y] = "setPawn";
-            System.out.println("x : " + x + " y : " + y + CheckPawn2[x][y]);
+            CheckPawn2[x][y] = ""; // setPawn 지우기
+            CheckPawn2[px][py] = "setPawn";
         }
     }
     @Override
