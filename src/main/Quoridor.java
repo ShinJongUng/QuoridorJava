@@ -35,241 +35,237 @@ public class Quoridor extends JFrame implements MouseListener, ActionListener{
         System.out.println(r+""+ c);
     }
 
-    private void canMovePawn1(ActionEvent e){
-        List<Integer> select_space = getSquare(e.getSource());
+    private void canMovePawn1(int pawn1x, int pawn1y){
         if(player_checked_state == 0) {
-            if (CheckPawn1[select_space.get(0)][select_space.get(1)] == "setPawn") {
-                if (select_space.get(0) + 1 >= ROWS) {
-                    if (select_space.get(1) + 1 >= COLS) {
-                        Spaces[select_space.get(0) - 1][select_space.get(0)].setBackground(Color.gray);
-                        Spaces[select_space.get(0)][select_space.get(0) - 1].setBackground(Color.gray);
+            if (CheckPawn1[pawn1x][pawn1y] == "setPawn") {
+                if (pawn1x + 1 >= ROWS) {
+                    if (pawn1y + 1 >= COLS) {
+                        Spaces[pawn1x - 1][pawn1y].setBackground(Color.gray);
+                        Spaces[pawn1x][pawn1y - 1].setBackground(Color.gray);
 
-                        CheckPawn1[select_space.get(1) - 1][select_space.get(0)] = "cango";
-                        CheckPawn1[select_space.get(1)][select_space.get(0) - 1] = "cango";
+                        CheckPawn1[pawn1x - 1][pawn1y] = "cango";
+                        CheckPawn1[pawn1x][pawn1y - 1] = "cango";
 
-                        x = select_space.get(0);
-                        y = select_space.get(1);
-                    } else if (select_space.get(1) - 1 < 0) {
-                        Spaces[select_space.get(0) - 1][select_space.get(1)].setBackground(Color.gray);
-                        Spaces[select_space.get(0)][select_space.get(1) + 1].setBackground(Color.gray);
+                        x = pawn1x;
+                        y = pawn1y;
+                    } else if (pawn1y - 1 < 0) {
+                        Spaces[pawn1x - 1][pawn1y].setBackground(Color.gray);
+                        Spaces[pawn1x][pawn1y + 1].setBackground(Color.gray);
 
-                        CheckPawn1[select_space.get(0) - 1][select_space.get(1)] = "cango";
-                        CheckPawn1[select_space.get(0)][select_space.get(1) + 1] = "cango";
+                        CheckPawn1[pawn1x - 1][pawn1y] = "cango";
+                        CheckPawn1[pawn1x][pawn1y + 1] = "cango";
 
-                        x = select_space.get(0);
-                        y = select_space.get(1);
+                        x = pawn1x;
+                        y = pawn1y;
                     } else {
-                        Spaces[select_space.get(0) - 1][select_space.get(1)].setBackground(Color.gray);
-                        Spaces[select_space.get(0)][select_space.get(1) + 1].setBackground(Color.gray);
-                        Spaces[select_space.get(0)][select_space.get(1) - 1].setBackground(Color.gray);
+                        Spaces[pawn1x - 1][pawn1y].setBackground(Color.gray);
+                        Spaces[pawn1x][pawn1y + 1].setBackground(Color.gray);
+                        Spaces[pawn1x][pawn1y - 1].setBackground(Color.gray);
 
-                        CheckPawn1[select_space.get(0) - 1][select_space.get(1)] = "cango";
-                        CheckPawn1[select_space.get(0)][select_space.get(1) + 1] = "cango";
-                        CheckPawn1[select_space.get(0)][select_space.get(1) - 1] = "cango";
+                        CheckPawn1[pawn1x - 1][pawn1y] = "cango";
+                        CheckPawn1[pawn1x][pawn1y + 1] = "cango";
+                        CheckPawn1[pawn1x][pawn1y - 1] = "cango";
 
-                        x = select_space.get(0);
-                        y = select_space.get(1);
+                        x = pawn1x;
+                        y = pawn1y;
                     }
-                } else if (select_space.get(1) + 1 >= COLS) {
-                    Spaces[select_space.get(0) + 1][select_space.get(1)].setBackground(Color.gray);
-                    Spaces[select_space.get(0) - 1][select_space.get(1)].setBackground(Color.gray);
-                    Spaces[select_space.get(0)][select_space.get(1) - 1].setBackground(Color.gray);
+                } else if (pawn1y + 1 >= COLS) {
+                    Spaces[pawn1x + 1][pawn1y].setBackground(Color.gray);
+                    Spaces[pawn1x - 1][pawn1y].setBackground(Color.gray);
+                    Spaces[pawn1x][pawn1y - 1].setBackground(Color.gray);
 
-                    CheckPawn1[select_space.get(0) + 1][select_space.get(1)] = "cango";
-                    CheckPawn1[select_space.get(0) - 1][select_space.get(1)] = "cango";
-                    CheckPawn1[select_space.get(0)][select_space.get(1) - 1] = "cango";
+                    CheckPawn1[pawn1x + 1][pawn1y] = "cango";
+                    CheckPawn1[pawn1x - 1][pawn1y] = "cango";
+                    CheckPawn1[pawn1x][pawn1y - 1] = "cango";
 
-                    x = select_space.get(0);
-                    y = select_space.get(1);
-                } else if (select_space.get(1) - 1 < 0) {
-                    Spaces[select_space.get(0) + 1][select_space.get(1)].setBackground(Color.gray);
-                    Spaces[select_space.get(0) - 1][select_space.get(1)].setBackground(Color.gray);
-                    Spaces[select_space.get(0)][select_space.get(1) + 1].setBackground(Color.gray);
+                    x = pawn1x;
+                    y = pawn1y;
+                } else if (pawn1y - 1 < 0) {
+                    Spaces[pawn1x + 1][pawn1y].setBackground(Color.gray);
+                    Spaces[pawn1x - 1][pawn1y].setBackground(Color.gray);
+                    Spaces[pawn1x][pawn1y + 1].setBackground(Color.gray);
 
-                    CheckPawn1[select_space.get(0) + 1][select_space.get(1)] = "cango";
-                    CheckPawn1[select_space.get(0) - 1][select_space.get(1)] = "cango";
-                    CheckPawn1[select_space.get(0)][select_space.get(1) + 1] = "cango";
+                    CheckPawn1[pawn1x + 1][pawn1y] = "cango";
+                    CheckPawn1[pawn1x - 1][pawn1y] = "cango";
+                    CheckPawn1[pawn1x][pawn1y + 1] = "cango";
 
-                    x = select_space.get(0);
-                    y = select_space.get(1);
+                    x = pawn1x;
+                    y = pawn1y;
                 } else {
-                    Spaces[select_space.get(0) + 1][select_space.get(1)].setBackground(Color.gray);
-                    Spaces[select_space.get(0) - 1][select_space.get(1)].setBackground(Color.gray);
-                    Spaces[select_space.get(0)][select_space.get(1) + 1].setBackground(Color.gray);
-                    Spaces[select_space.get(0)][select_space.get(1) - 1].setBackground(Color.gray);
+                    Spaces[pawn1x + 1][pawn1y].setBackground(Color.gray);
+                    Spaces[pawn1x - 1][pawn1y].setBackground(Color.gray);
+                    Spaces[pawn1x][pawn1y + 1].setBackground(Color.gray);
+                    Spaces[pawn1x][pawn1y - 1].setBackground(Color.gray);
 
-                    CheckPawn1[select_space.get(0) + 1][select_space.get(1)] = "cango";
-                    CheckPawn1[select_space.get(0) - 1][select_space.get(1)] = "cango";
-                    CheckPawn1[select_space.get(0)][select_space.get(1) + 1] = "cango";
-                    CheckPawn1[select_space.get(0)][select_space.get(1) - 1] = "cango";
+                    CheckPawn1[pawn1x + 1][pawn1y] = "cango";
+                    CheckPawn1[pawn1x - 1][pawn1y] = "cango";
+                    CheckPawn1[pawn1x][pawn1y + 1] = "cango";
+                    CheckPawn1[pawn1x][pawn1y - 1] = "cango";
 
-                    x = select_space.get(0);
-                    y = select_space.get(1);
+                    x = pawn1x;
+                    y = pawn1y;
                 }
-                if (select_space.get(1) > 0) {
-                    if (CheckVwalls[select_space.get(0)][select_space.get(1) - 1] == "Checked") {
-                        Spaces[select_space.get(0)][select_space.get(1) - 1].setBackground(new Color(150, 75, 0));
-                        CheckPawn1[select_space.get(0)][select_space.get(1) - 1] = "";
+                if (pawn1y > 0) {
+                    if (CheckVwalls[pawn1x][pawn1y - 1] == "Checked") {
+                        Spaces[pawn1x][pawn1y - 1].setBackground(new Color(150, 75, 0));
+                        CheckPawn1[pawn1x][pawn1y - 1] = "";
                     }
                 }
-                if (CheckVwalls[select_space.get(0)][select_space.get(1)] == "Checked") {
-                    Spaces[select_space.get(0)][select_space.get(1) + 1].setBackground(new Color(150, 75, 0));
-                    CheckPawn1[select_space.get(0)][select_space.get(1) + 1] = "";
+                if (CheckVwalls[pawn1x][pawn1y] == "Checked") {
+                    Spaces[pawn1x][pawn1y + 1].setBackground(new Color(150, 75, 0));
+                    CheckPawn1[pawn1x][pawn1y + 1] = "";
                 }
-                if (select_space.get(0) > 0) {
-                    if (CheckHwalls[select_space.get(0) - 1][select_space.get(1)] == "Checked") {
-                        Spaces[select_space.get(0) - 1][select_space.get(1)].setBackground(new Color(150, 75, 0));
-                        CheckPawn1[select_space.get(0) - 1][select_space.get(1)] = "";
+                if (pawn1x > 0) {
+                    if (CheckHwalls[pawn1x - 1][pawn1y] == "Checked") {
+                        Spaces[pawn1x - 1][pawn1y].setBackground(new Color(150, 75, 0));
+                        CheckPawn1[pawn1x - 1][pawn1y] = "";
                     }
                 }
 
-                if (CheckHwalls[select_space.get(0)][select_space.get(1)] == "Checked") {
-                    Spaces[select_space.get(0) + 1][select_space.get(1)].setBackground(new Color(150, 75, 0));
-                    CheckPawn1[select_space.get(0) + 1][select_space.get(1)] = "";
+                if (CheckHwalls[pawn1x][pawn1y] == "Checked") {
+                    Spaces[pawn1x + 1][pawn1y].setBackground(new Color(150, 75, 0));
+                    CheckPawn1[pawn1x + 1][pawn1y] = "";
                 }
-                player_checked_state = 1;
-                walld = 1;
             }
+            player_checked_state = 1;
+            walld = 1;
         }else{
-            if (CheckPawn1[select_space.get(0)][select_space.get(1)] == "setPawn") {
-                Spaces[select_space.get(0) + 1][select_space.get(1)].setBackground(new Color(150, 75, 0));
-                Spaces[select_space.get(0) - 1][select_space.get(1)].setBackground(new Color(150, 75, 0));
-                Spaces[select_space.get(0)][select_space.get(1) + 1].setBackground(new Color(150, 75, 0));
-                Spaces[select_space.get(0)][select_space.get(1) - 1].setBackground(new Color(150, 75, 0));
-                CheckPawn1[select_space.get(0)][select_space.get(1) + 1] = "";
-                CheckPawn1[select_space.get(0)][select_space.get(1) - 1] = "";
-                CheckPawn1[select_space.get(0) + 1][select_space.get(1)] = "";
-                CheckPawn1[select_space.get(0) - 1][select_space.get(1)] = "";
+            if (CheckPawn1[pawn1x][pawn1y] == "setPawn") {
+                Spaces[pawn1x + 1][pawn1y].setBackground(new Color(150, 75, 0));
+                Spaces[pawn1x - 1][pawn1y].setBackground(new Color(150, 75, 0));
+                Spaces[pawn1x][pawn1y + 1].setBackground(new Color(150, 75, 0));
+                Spaces[pawn1x][pawn1y - 1].setBackground(new Color(150, 75, 0));
+                CheckPawn1[pawn1x][pawn1y + 1] = "";
+                CheckPawn1[pawn1x][pawn1y - 1] = "";
+                CheckPawn1[pawn1x + 1][pawn1y] = "";
+                CheckPawn1[pawn1x - 1][pawn1y] = "";
                 player_checked_state = 0;
             }
         }
     }
 
-    private void canMovePawn2(ActionEvent e) {
-        List<Integer> select_space = getSquare(e.getSource());
-        //84 me, 73, 74
+    private void canMovePawn2(int pawn2x, int pawn2y) {
         if (player_checked_state == 0) {
-            if (CheckPawn2[select_space.get(0)][select_space.get(1)] == "setPawn") {
-                 if (select_space.get(0) - 1 < 0) {
-                    if (select_space.get(1) + 1 >= COLS) {
-                        Spaces[select_space.get(0) + 1][select_space.get(1)].setBackground(Color.gray);
-                        Spaces[select_space.get(0)][select_space.get(1) - 1].setBackground(Color.gray);
+            if (CheckPawn2[pawn2x][pawn2y] == "setPawn") {
+                 if (pawn2x - 1 < 0) {
+                    if (pawn2y + 1 >= COLS) {
+                        Spaces[pawn2x + 1][pawn2y].setBackground(Color.gray);
+                        Spaces[pawn2x][pawn2y - 1].setBackground(Color.gray);
 
-                        CheckPawn2[select_space.get(0) + 1][select_space.get(1)] = "cango";
-                        CheckPawn2[select_space.get(0)][select_space.get(1) - 1] = "cango";
+                        CheckPawn2[pawn2x + 1][pawn2y] = "cango";
+                        CheckPawn2[pawn2x][pawn2y - 1] = "cango";
 
-                        x = select_space.get(0);
-                        y = select_space.get(1);
-                    } else if (select_space.get(1) - 1 < 0) {
-                        Spaces[select_space.get(0) + 1][select_space.get(1)].setBackground(Color.gray);
-                        Spaces[select_space.get(0)][select_space.get(1) + 1].setBackground(Color.gray);
+                        x = pawn2x;
+                        y = pawn2y;
+                    } else if (pawn2y - 1 < 0) {
+                        Spaces[pawn2x + 1][pawn2y].setBackground(Color.gray);
+                        Spaces[pawn2x][pawn2y + 1].setBackground(Color.gray);
 
-                        CheckPawn2[select_space.get(0) + 1][select_space.get(1)] = "cango";
-                        CheckPawn2[select_space.get(0)][select_space.get(1) + 1] = "cango";
+                        CheckPawn2[pawn2x + 1][pawn2y] = "cango";
+                        CheckPawn2[pawn2x][pawn2y + 1] = "cango";
 
-                        x = select_space.get(0);
-                        y = select_space.get(1);
+                        x = pawn2x;
+                        y = pawn2y;
                     } else {
-                        Spaces[select_space.get(0) + 1][select_space.get(1)].setBackground(Color.gray);
-                        Spaces[select_space.get(0)][select_space.get(1) - 1].setBackground(Color.gray);
-                        Spaces[select_space.get(0)][select_space.get(1) + 1].setBackground(Color.gray);
+                        Spaces[pawn2x + 1][pawn2y].setBackground(Color.gray);
+                        Spaces[pawn2x][pawn2y - 1].setBackground(Color.gray);
+                        Spaces[pawn2x][pawn2y + 1].setBackground(Color.gray);
 
-                        CheckPawn2[select_space.get(0) + 1][select_space.get(1)] = "cango";
-                        CheckPawn2[select_space.get(0)][select_space.get(1) - 1] = "cango";
-                        CheckPawn2[select_space.get(0)][select_space.get(1) + 1] = "cango";
+                        CheckPawn2[pawn2x + 1][pawn2y] = "cango";
+                        CheckPawn2[pawn2x][pawn2y - 1] = "cango";
+                        CheckPawn2[pawn2x][pawn2y + 1] = "cango";
 
-                        x = select_space.get(0);
-                        y = select_space.get(1);
+                        x = pawn2x;
+                        y = pawn2y;
                     }
-                } else if (select_space.get(1) + 1 >= COLS) {
-                    Spaces[select_space.get(0) + 1][select_space.get(1)].setBackground(Color.gray);
-                    Spaces[select_space.get(0) - 1][select_space.get(1)].setBackground(Color.gray);
-                    Spaces[select_space.get(0)][select_space.get(1) - 1].setBackground(Color.gray);
+                } else if (pawn2y + 1 >= COLS) {
+                    Spaces[pawn2x + 1][pawn2y].setBackground(Color.gray);
+                    Spaces[pawn2x - 1][pawn2y].setBackground(Color.gray);
+                    Spaces[pawn2x][pawn2y - 1].setBackground(Color.gray);
 
-                    CheckPawn2[select_space.get(0) + 1][select_space.get(1)] = "cango";
-                    CheckPawn2[select_space.get(0) - 1][select_space.get(1)] = "cango";
-                    CheckPawn2[select_space.get(0)][select_space.get(1) - 1] = "cango";
+                    CheckPawn2[pawn2x + 1][pawn2y] = "cango";
+                    CheckPawn2[pawn2x - 1][pawn2y] = "cango";
+                    CheckPawn2[pawn2x][pawn2y - 1] = "cango";
 
-                    x = select_space.get(0);
-                    y = select_space.get(1);
-                } else if (select_space.get(1) - 1 < 0) {
-                    Spaces[select_space.get(0) + 1][select_space.get(1)].setBackground(Color.gray);
-                    Spaces[select_space.get(0) - 1][select_space.get(1)].setBackground(Color.gray);
-                    Spaces[select_space.get(0)][select_space.get(1) + 1].setBackground(Color.gray);
+                    x = pawn2x;
+                    y = pawn2y;
+                } else if (pawn2y - 1 < 0) {
+                    Spaces[pawn2x + 1][pawn2y].setBackground(Color.gray);
+                    Spaces[pawn2x - 1][pawn2y].setBackground(Color.gray);
+                    Spaces[pawn2x][pawn2y + 1].setBackground(Color.gray);
 
-                    CheckPawn2[select_space.get(0) + 1][select_space.get(1)] = "cango";
-                    CheckPawn2[select_space.get(0) - 1][select_space.get(1)] = "cango";
-                    CheckPawn2[select_space.get(0)][select_space.get(1) + 1] = "cango";
+                    CheckPawn2[pawn2x + 1][pawn2y] = "cango";
+                    CheckPawn2[pawn2x - 1][pawn2y] = "cango";
+                    CheckPawn2[pawn2x][pawn2y + 1] = "cango";
 
-                    x = select_space.get(0);
-                    y = select_space.get(1);
+                    x = pawn2x;
+                    y = pawn2y;
                 } else {
-                    Spaces[select_space.get(0) + 1][select_space.get(1)].setBackground(Color.gray);
-                    Spaces[select_space.get(0) - 1][select_space.get(1)].setBackground(Color.gray);
-                    Spaces[select_space.get(0)][select_space.get(1) + 1].setBackground(Color.gray);
-                    Spaces[select_space.get(0)][select_space.get(1) - 1].setBackground(Color.gray);
+                    Spaces[pawn2x + 1][pawn2y].setBackground(Color.gray);
+                    Spaces[pawn2x - 1][pawn2y].setBackground(Color.gray);
+                    Spaces[pawn2x][pawn2y + 1].setBackground(Color.gray);
+                    Spaces[pawn2x][pawn2y - 1].setBackground(Color.gray);
 
-                    CheckPawn2[select_space.get(0) + 1][select_space.get(1)] = "cango";
-                    CheckPawn2[select_space.get(0) - 1][select_space.get(1)] = "cango";
-                    CheckPawn2[select_space.get(0)][select_space.get(1) + 1] = "cango";
-                    CheckPawn2[select_space.get(0)][select_space.get(1) - 1] = "cango";
+                    CheckPawn2[pawn2x + 1][pawn2y] = "cango";
+                    CheckPawn2[pawn2x - 1][pawn2y] = "cango";
+                    CheckPawn2[pawn2x][pawn2y + 1] = "cango";
+                    CheckPawn2[pawn2x][pawn2y - 1] = "cango";
 
-                    x = select_space.get(0);
-                    y = select_space.get(1);
+                    x = pawn2x;
+                    y = pawn2y;
                 }
-                if (select_space.get(1) > 0) {
-                    if (CheckVwalls[select_space.get(0)][select_space.get(1) - 1] == "Checked") {
-                        Spaces[select_space.get(0)][select_space.get(1) - 1].setBackground(new Color(150, 75, 0));
-                        CheckPawn2[select_space.get(0)][select_space.get(1) - 1] = "";
+                if (pawn2y > 0) {
+                    if (CheckVwalls[pawn2x][pawn2y - 1] == "Checked") {
+                        Spaces[pawn2x][pawn2y - 1].setBackground(new Color(150, 75, 0));
+                        CheckPawn2[pawn2x][pawn2y - 1] = "";
                     }
                 }
-                if (CheckVwalls[select_space.get(0)][select_space.get(1)] == "Checked") {
-                    Spaces[select_space.get(0)][select_space.get(1) + 1].setBackground(new Color(150, 75, 0));
-                    CheckPawn2[select_space.get(0)][select_space.get(1) + 1] = "";
+                if (CheckVwalls[pawn2x][pawn2y] == "Checked") {
+                    Spaces[pawn2x][pawn2y + 1].setBackground(new Color(150, 75, 0));
+                    CheckPawn2[pawn2x][pawn2y + 1] = "";
                 }
-                if (select_space.get(0) > 0) {
-                    if (CheckHwalls[select_space.get(0) - 1][select_space.get(1)] == "Checked") {
-                        Spaces[select_space.get(0) - 1][select_space.get(1)].setBackground(new Color(150, 75, 0));
-                        CheckPawn2[select_space.get(0) - 1][select_space.get(1)] = "";
+                if (pawn2x > 0) {
+                    if (CheckHwalls[pawn2x - 1][pawn2y] == "Checked") {
+                        Spaces[pawn2x - 1][pawn2y].setBackground(new Color(150, 75, 0));
+                        CheckPawn2[pawn2x - 1][pawn2y] = "";
                     }
                 }
-                if (CheckHwalls[select_space.get(0)][select_space.get(1)] == "Checked") {
-                    Spaces[select_space.get(0) + 1][select_space.get(1)].setBackground(new Color(150, 75, 0));
-                    CheckPawn2[select_space.get(0) + 1][select_space.get(1)] = "";
+                if (CheckHwalls[pawn2x][pawn2y] == "Checked") {
+                    Spaces[pawn2x + 1][pawn2y].setBackground(new Color(150, 75, 0));
+                    CheckPawn2[pawn2x + 1][pawn2y] = "";
                 }
                 walld = 1;
                 player_checked_state = 1;
             }
         } else {
-            if (CheckPawn2[select_space.get(0)][select_space.get(1)] == "setPawn") {
-                Spaces[select_space.get(0) + 1][select_space.get(1)].setBackground(new Color(150, 75, 0));
-                Spaces[select_space.get(0) - 1][select_space.get(1)].setBackground(new Color(150, 75, 0));
-                Spaces[select_space.get(0)][select_space.get(1) + 1].setBackground(new Color(150, 75, 0));
-                Spaces[select_space.get(0)][select_space.get(1) - 1].setBackground(new Color(150, 75, 0));
-                CheckPawn2[select_space.get(0)][select_space.get(1) + 1] = "";
-                CheckPawn2[select_space.get(0)][select_space.get(1) - 1] = "";
-                CheckPawn2[select_space.get(0) + 1][select_space.get(1)] = "";
-                CheckPawn2[select_space.get(0) - 1][select_space.get(1)] = "";
+            if (CheckPawn2[pawn2x][pawn2y] == "setPawn") {
+                Spaces[pawn2x + 1][pawn2y].setBackground(new Color(150, 75, 0));
+                Spaces[pawn2x - 1][pawn2y].setBackground(new Color(150, 75, 0));
+                Spaces[pawn2x][pawn2y + 1].setBackground(new Color(150, 75, 0));
+                Spaces[pawn2x][pawn2y - 1].setBackground(new Color(150, 75, 0));
+                CheckPawn2[pawn2x][pawn2y + 1] = "";
+                CheckPawn2[pawn2x][pawn2y - 1] = "";
+                CheckPawn2[pawn2x + 1][pawn2y] = "";
+                CheckPawn2[pawn2x - 1][pawn2y] = "";
                 player_checked_state = 0;
             }
             walld = 0;
         }
     }
 
-    private void deletePawnSet1(ActionEvent event) {
-        List<Integer> select_space = getSquare(event.getSource());
+    private void deletePawnSet1(int pawn1x, int pawn1y) {
 
-            if (CheckPawn1[select_space.get(0)][select_space.get(1)] == "cango") {
+            if (CheckPawn1[pawn1x][pawn1y] == "cango") {
                 player_checked_state = 0;
                 if (x + 1 >= ROWS) {
                     if (y + 1 >= COLS) {
-                        Pawn.setPawn(0, (JButton) event.getSource());
+                        Pawn.setPawn(0, pawn1x, pawn1y);
                         //회색 칠 지우기
                         Spaces[x - 1][y].setBackground(new Color(150, 75, 0));
                         Spaces[x][y - 1].setBackground(new Color(150, 75, 0));
 
                         //setPawn 자리 색칠
-                        Spaces[select_space.get(0)][select_space.get(1)].setBackground(Color.gray);
+                        Spaces[pawn1x][pawn1y].setBackground(Color.gray);
 
                         //cango 지우기
                         CheckPawn1[x - 1][y] = "";
@@ -277,15 +273,15 @@ public class Quoridor extends JFrame implements MouseListener, ActionListener{
 
                         CheckPawn1[x][y] = ""; // setPawn 지우기
 
-                        CheckPawn1[select_space.get(0)][select_space.get(1)] = "setPawn";
+                        CheckPawn1[pawn1x][pawn1y] = "setPawn";
                     } else if (y - 1 < 0) {
-                        Pawn.setPawn(0, (JButton) event.getSource());
+                        Pawn.setPawn(0, pawn1x, pawn1y);
                         //회색 칠 지우기
                         Spaces[x - 1][y].setBackground(new Color(150, 75, 0));
                         Spaces[x][y + 1].setBackground(new Color(150, 75, 0));
 
                         //setPawn 자리 색칠
-                        Spaces[select_space.get(0)][select_space.get(1)].setBackground(Color.gray);
+                        Spaces[pawn1x][pawn1y].setBackground(Color.gray);
 
                         //cango 지우기
                         CheckPawn1[x - 1][y] = "";
@@ -293,16 +289,16 @@ public class Quoridor extends JFrame implements MouseListener, ActionListener{
 
                         CheckPawn1[x][y] = ""; // setPawn 지우기
 
-                        CheckPawn1[select_space.get(0)][select_space.get(1)] = "setPawn";
+                        CheckPawn1[pawn1x][pawn1y] = "setPawn";
                     }else{
-                        Pawn.setPawn(0, (JButton) event.getSource());
+                        Pawn.setPawn(0, pawn1x, pawn1y);
                         //회색 칠 지우기
                         Spaces[x - 1][y].setBackground(new Color(150, 75, 0));
                         Spaces[x][y + 1].setBackground(new Color(150, 75, 0));
                         Spaces[x][y - 1].setBackground(new Color(150, 75, 0));
 
                         //setPawn 자리 색칠
-                        Spaces[select_space.get(0)][select_space.get(1)].setBackground(Color.gray);
+                        Spaces[pawn1x][pawn1y].setBackground(Color.gray);
 
                         //cango 지우기
                         CheckPawn1[x - 1][y] = "";
@@ -311,17 +307,17 @@ public class Quoridor extends JFrame implements MouseListener, ActionListener{
 
                         CheckPawn1[x][y] = ""; // setPawn 지우기
 
-                        CheckPawn1[select_space.get(0)][select_space.get(1)] = "setPawn";
+                        CheckPawn1[pawn1x][pawn1y] = "setPawn";
                     }
                 } else if (y + 1 >= COLS) {
-                    Pawn.setPawn(0, (JButton) event.getSource());
+                    Pawn.setPawn(0, pawn1x, pawn1y);
                     //회색 칠 지우기
                     Spaces[x + 1][y].setBackground(new Color(150, 75, 0));
                     Spaces[x - 1][y].setBackground(new Color(150, 75, 0));
                     Spaces[x][y - 1].setBackground(new Color(150, 75, 0));
 
                     //setPawn 자리 색칠
-                    Spaces[select_space.get(0)][select_space.get(1)].setBackground(Color.gray);
+                    Spaces[pawn1x][pawn1y].setBackground(Color.gray);
 
                     //cango 지우기
                     CheckPawn1[x + 1][y] = "";
@@ -330,16 +326,16 @@ public class Quoridor extends JFrame implements MouseListener, ActionListener{
 
                     CheckPawn1[x][y] = ""; // setPawn 지우기
 
-                    CheckPawn1[select_space.get(0)][select_space.get(1)] = "setPawn";
+                    CheckPawn1[pawn1x][pawn1y] = "setPawn";
                 } else if (y - 1 < 0) {
-                    Pawn.setPawn(0, (JButton) event.getSource());
+                    Pawn.setPawn(0, pawn1x, pawn1y);
                     //회색 칠 지우기
                     Spaces[x + 1][y].setBackground(new Color(150, 75, 0));
                     Spaces[x - 1][y].setBackground(new Color(150, 75, 0));
                     Spaces[x][y + 1].setBackground(new Color(150, 75, 0));
 
                     //setPawn 자리 색칠
-                    Spaces[select_space.get(0)][select_space.get(1)].setBackground(Color.gray);
+                    Spaces[pawn1x][pawn1y].setBackground(Color.gray);
 
                     //cango 지우기
                     CheckPawn1[x + 1][y] = "";
@@ -348,9 +344,9 @@ public class Quoridor extends JFrame implements MouseListener, ActionListener{
 
                     CheckPawn1[x][y] = ""; // setPawn 지우기
 
-                    CheckPawn1[select_space.get(0)][select_space.get(1)] = "setPawn";
+                    CheckPawn1[pawn1x][pawn1y] = "setPawn";
                 }else{
-                    Pawn.setPawn(0, (JButton) event.getSource());
+                    Pawn.setPawn(0, pawn1x, pawn1y);
                     //회색 칠 지우기
                     Spaces[x + 1][y].setBackground(new Color(150, 75, 0));
                     Spaces[x - 1][y].setBackground(new Color(150, 75, 0));
@@ -358,7 +354,7 @@ public class Quoridor extends JFrame implements MouseListener, ActionListener{
                     Spaces[x][y - 1].setBackground(new Color(150, 75, 0));
 
                     //setPawn 자리 색칠
-                    Spaces[select_space.get(0)][select_space.get(1)].setBackground(Color.gray);
+                    Spaces[pawn1x][pawn1y].setBackground(Color.gray);
 
                     //cango 지우기
                     CheckPawn1[x + 1][y] = "";
@@ -368,7 +364,7 @@ public class Quoridor extends JFrame implements MouseListener, ActionListener{
 
                     CheckPawn1[x][y] = ""; // setPawn 지우기
 
-                    CheckPawn1[select_space.get(0)][select_space.get(1)] = "setPawn";
+                    CheckPawn1[pawn1x][pawn1y] = "setPawn";
                 }
                 walld = 0;
             }
@@ -376,18 +372,18 @@ public class Quoridor extends JFrame implements MouseListener, ActionListener{
 
     }
 
-    private void deletePawnSet2(ActionEvent event) {
-        List<Integer> select_space = getSquare(event.getSource());
-        if (CheckPawn2[select_space.get(0)][select_space.get(1)] == "cango" || CheckPawn2[select_space.get(0)][select_space.get(1)] == "setPawn") {
+    private void deletePawnSet2(int pawn2x, int pawn2y) {
+
+        if (CheckPawn2[pawn2x][pawn2y] == "cango" || CheckPawn2[pawn2x][pawn2y] == "setPawn") {
             if (x - 1 < 0) {
                 if (y + 1 >= COLS) {
-                    Pawn.setPawn(1, (JButton) event.getSource());
+                    Pawn.setPawn(1, pawn2x, pawn2y);
                     //회색 칠 지우기
                     Spaces[x + 1][y].setBackground(new Color(150, 75, 0));
                     Spaces[x][y - 1].setBackground(new Color(150, 75, 0));
 
                     //setPawn 자리 색칠
-                    Spaces[select_space.get(0)][select_space.get(1)].setBackground(Color.gray);
+                    Spaces[pawn2x][pawn2y].setBackground(Color.gray);
 
                     //cango 지우기
                     CheckPawn2[x + 1][y] = "";
@@ -395,15 +391,15 @@ public class Quoridor extends JFrame implements MouseListener, ActionListener{
 
                     CheckPawn2[x][y] = ""; // setPawn 지우기
 
-                    CheckPawn2[select_space.get(0)][select_space.get(1)] = "setPawn";
+                    CheckPawn2[pawn2x][pawn2y] = "setPawn";
                 } else if (y - 1 < 0) {
-                    Pawn.setPawn(1, (JButton) event.getSource());
+                    Pawn.setPawn(1, pawn2x, pawn2y);
                     //회색 칠 지우기
                     Spaces[x + 1][y].setBackground(new Color(150, 75, 0));
                     Spaces[x][y + 1].setBackground(new Color(150, 75, 0));
 
                     //setPawn 자리 색칠
-                    Spaces[select_space.get(0)][select_space.get(1)].setBackground(Color.gray);
+                    Spaces[pawn2x][pawn2y].setBackground(Color.gray);
 
                     //cango 지우기
                     CheckPawn2[x + 1][y] = "";
@@ -411,16 +407,16 @@ public class Quoridor extends JFrame implements MouseListener, ActionListener{
 
                     CheckPawn2[x][y] = ""; // setPawn 지우기
 
-                    CheckPawn2[select_space.get(0)][select_space.get(1)] = "setPawn";
+                    CheckPawn2[pawn2x][pawn2y] = "setPawn";
                 }else{
-                    Pawn.setPawn(1, (JButton) event.getSource());
+                    Pawn.setPawn(1, pawn2x, pawn2y);
                     //회색 칠 지우기
                     Spaces[x + 1][y].setBackground(new Color(150, 75, 0));
                     Spaces[x][y + 1].setBackground(new Color(150, 75, 0));
                     Spaces[x][y - 1].setBackground(new Color(150, 75, 0));
 
                     //setPawn 자리 색칠
-                    Spaces[select_space.get(0)][select_space.get(1)].setBackground(Color.gray);
+                    Spaces[pawn2x][pawn2y].setBackground(Color.gray);
 
                     //cango 지우기
                     CheckPawn2[x + 1][y] = "";
@@ -429,17 +425,17 @@ public class Quoridor extends JFrame implements MouseListener, ActionListener{
 
                     CheckPawn2[x][y] = ""; // setPawn 지우기
 
-                    CheckPawn2[select_space.get(0)][select_space.get(1)] = "setPawn";
+                    CheckPawn2[pawn2x][pawn2y] = "setPawn";
                 }
             } else if (y + 1 >= COLS) {
-                Pawn.setPawn(1, (JButton) event.getSource());
+                Pawn.setPawn(1, pawn2x, pawn2y);
                 //회색 칠 지우기
                 Spaces[x + 1][y].setBackground(new Color(150, 75, 0));
                 Spaces[x - 1][y].setBackground(new Color(150, 75, 0));
                 Spaces[x][y - 1].setBackground(new Color(150, 75, 0));
 
                 //setPawn 자리 색칠
-                Spaces[select_space.get(0)][select_space.get(1)].setBackground(Color.gray);
+                Spaces[pawn2x][pawn2y].setBackground(Color.gray);
 
                 //cango 지우기
                 CheckPawn2[x + 1][y] = "";
@@ -448,16 +444,16 @@ public class Quoridor extends JFrame implements MouseListener, ActionListener{
 
                 CheckPawn2[x][y] = ""; // setPawn 지우기
 
-                CheckPawn2[select_space.get(0)][select_space.get(1)] = "setPawn";
+                CheckPawn2[pawn2x][pawn2y] = "setPawn";
             } else if (y - 1 < 0) {
-                Pawn.setPawn(1, (JButton) event.getSource());
+                Pawn.setPawn(1, pawn2x, pawn2y);
                 //회색 칠 지우기
                 Spaces[x + 1][y].setBackground(new Color(150, 75, 0));
                 Spaces[x - 1][y].setBackground(new Color(150, 75, 0));
                 Spaces[x][y + 1].setBackground(new Color(150, 75, 0));
 
                 //setPawn 자리 색칠
-                Spaces[select_space.get(0)][select_space.get(1)].setBackground(Color.gray);
+                Spaces[pawn2x][pawn2y].setBackground(Color.gray);
 
                 //cango 지우기
                 CheckPawn2[x + 1][y] = "";
@@ -466,9 +462,9 @@ public class Quoridor extends JFrame implements MouseListener, ActionListener{
 
                 CheckPawn2[x][y] = ""; // setPawn 지우기
 
-                CheckPawn2[select_space.get(0)][select_space.get(1)] = "setPawn";
+                CheckPawn2[pawn2x][pawn2y] = "setPawn";
             }else{
-                Pawn.setPawn(1, (JButton) event.getSource());
+                Pawn.setPawn(1, pawn2x, pawn2y);
                 //회색 칠 지우기
                 Spaces[x + 1][y].setBackground(new Color(150, 75, 0));
                 Spaces[x - 1][y].setBackground(new Color(150, 75, 0));
@@ -476,7 +472,7 @@ public class Quoridor extends JFrame implements MouseListener, ActionListener{
                 Spaces[x][y - 1].setBackground(new Color(150, 75, 0));
 
                 //setPawn 자리 색칠
-                Spaces[select_space.get(0)][select_space.get(1)].setBackground(Color.gray);
+                Spaces[pawn2x][pawn2y].setBackground(Color.gray);
 
                 //cango 지우기
                 CheckPawn2[x + 1][y] = "";
@@ -486,7 +482,7 @@ public class Quoridor extends JFrame implements MouseListener, ActionListener{
 
                 CheckPawn2[x][y] = ""; // setPawn 지우기
 
-                CheckPawn2[select_space.get(0)][select_space.get(1)] = "setPawn";
+                CheckPawn2[pawn2x][pawn2y] = "setPawn";
             }
             walld = 0;
         }
@@ -497,11 +493,26 @@ public class Quoridor extends JFrame implements MouseListener, ActionListener{
         List<Integer> select_verticalWall = getVerticalWall(event.getSource());
         List<Integer> select_horizontalWall = getHorizontalWall(event.getSource());
 
-        //if(client.isTurn()) {
+        if(client.isTurn()) {
             if (select_space != null) {
-                System.out.println("(" + (select_space.get(1) + 1) + "," + (select_space.get(0) + 1) + ")");
-                canMovePawn1(event);
-                deletePawnSet1(event);
+                int x = select_space.get(0);
+                int y = select_space.get(1);
+                System.out.println("(" + (y + 1) + "," + (x + 1) + ")");
+                if(client.getMyId() == 0) {
+
+                    canMovePawn1(x, y);
+                System.out.println(walld);
+
+                    deletePawnSet1(x, y);
+                System.out.println(walld);
+                }else {
+                    canMovePawn2(x, y);
+                    System.out.println(walld);
+
+                    deletePawnSet2(x, y);
+                    System.out.println(walld);
+                }
+
             } else if (walld == 0 && select_verticalWall != null) {
                 if (select_verticalWall.get(0) + 1 >= ROWS) {
                     if (CheckVwalls[select_verticalWall.get(0)][select_verticalWall.get(1)] != "Checked" && CheckVwalls[select_verticalWall.get(0) - 1][select_verticalWall.get(1)] != "Checked") {
@@ -542,7 +553,7 @@ public class Quoridor extends JFrame implements MouseListener, ActionListener{
                 System.out.println("확인되지 않은 플레이");
             }
         }
-  // }
+   }
 
     private List<Integer> getSquare(Object source) {
         for (int i = 0; i < Board.Spaces.length; ++i) {

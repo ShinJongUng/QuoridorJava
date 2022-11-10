@@ -15,6 +15,7 @@ import java.awt.event.MouseListener;
 public class Board extends JFrame{
     // 보드
     public static int x, y, walld, player_checked_state = 0;
+    public static int pawn1x, pawn1y;
     static final int ROWS = 9, COLS = 9;
     public static JButton[][] Spaces = new JButton[ROWS][COLS];
     public static JButton[][] CenterWalls = new JButton[ROWS-1][COLS-1];
@@ -106,8 +107,8 @@ public class Board extends JFrame{
 //            client.setX(0);
 //        client.setY(COLS/2);
 
-        Pawn.setPawn(0, Spaces[ROWS-1][COLS / 2]); // 말 첫 위치 지정
-        Pawn.setPawn(1, Spaces[0][COLS / 2]); // 말 첫 위치 지정
+        Pawn.setPawn(0, ROWS-1, COLS / 2); // 말 첫 위치 지정
+        Pawn.setPawn(1, 0, COLS / 2); // 말 첫 위치 지정
 
         CheckPawn1[ROWS-1][COLS / 2] = "setPawn";
         CheckPawn2[0][COLS / 2] = "setPawn";
