@@ -22,7 +22,6 @@ public class PKT_Serialized {
             byte[] byte_Header = new byte[headerSize];
             inputBuffer.get(byte_Header, 0, headerSize);
             PKT_Header header = toObject(byte_Header, PKT_Header.class);
-            System.out.println("입력받은 데이터 : " + header.size);
 
             byte[] bytes = new byte[header.size];
             inputBuffer.get(bytes, 0, header.size);
