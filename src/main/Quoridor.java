@@ -15,27 +15,61 @@ import static main.Board.CheckHwalls;
 import main.Pawn.*;
 import DB.*;
 
-public class Quoridor extends JFrame implements MouseListener, ActionListener{
+public class Quoridor extends JFrame implements ActionListener{
 
-    public void mouseClicked(MouseEvent event) {}
-    public void mousePressed(MouseEvent event) {}
-    public void mouseReleased(MouseEvent event) {}
-    public void mouseEntered(MouseEvent event) {}
-    public void mouseExited(MouseEvent event) {}
-    private void setVerticalWall(int r, int c) {
+    public void setVerticalWall(int r, int c) {
         Board.VerticalWalls[r + 1][c].setBackground(Color.orange); // 누른곳 밑
         Board.VerticalWalls[r][c].setBackground(Color.orange);
         Board.CenterWalls[r][c].setBackground(Color.orange);
         System.out.println(r+""+ c);
     }
-    private void setHorizontalWall(int r, int c){
+    public void setHorizontalWall(int r, int c){
         Board.HorizontalWalls[r][c + 1].setBackground(Color.orange); // 누른곳 오른쪽
         Board.HorizontalWalls[r][c].setBackground(Color.orange); // 누른곳
         Board.CenterWalls[r][c].setBackground(Color.orange); // 가운데
         System.out.println(r+""+ c);
     }
 
-    private void canMovePawn1(int pawn1x, int pawn1y){
+    public void CreateVerticalWall(int x, int y, boolean turn){
+        if (x + 1 >= ROWS) {
+            if (CheckVwalls[x][y] != "Checked" && CheckVwalls[x - 1][y] != "Checked") {
+                setVerticalWall(x - 1, y);
+                CheckVwalls[x][y] = "Checked";
+                CheckVwalls[x - 1][y] = "Checked";
+            }
+        } else if (CheckVwalls[x][y] != "Checked" && CheckVwalls[x + 1][y] != "Checked") {
+            setVerticalWall(x, y);
+            CheckVwalls[x][y] = "Checked";
+            CheckVwalls[x + 1][y] = "Checked";
+        }
+        System.out.println("(" + (y + 1 + "," + (x + 1)) + ")," + "(" + (y + 1 + "," + (x + 2)) + ")"); // to do
+        if(turn)
+            Main.client.Write(new Packet(Main.client.getMyId(), x, y, Packet.State.Vertical_Wall, Main.client.isTurn()));
+    }
+    public void CreateHorizontalWall(int x, int y, boolean turn){
+        System.out.println("가로 벽 실행");
+        try {
+            if (y + 1 >= COLS) {
+                if (CheckHwalls[x][y] != "Checked" && CheckHwalls[x][y - 1] != "Checked") {
+                    setHorizontalWall(x, y - 1);
+                    CheckHwalls[x][y] = "Checked";
+                    CheckHwalls[x][y - 1] = "Checked";
+                }
+            } else if (CheckHwalls[x][y] != "Checked" && CheckHwalls[x][y + 1] != "Checked") {
+                setHorizontalWall(x, y);
+                CheckHwalls[x][y] = "Checked";
+                CheckHwalls[x][y + 1] = "Checked";
+            }
+            System.out.println("(" + (y + 1 + "," + (x + 1)) + ")," + "(" + (y + 2 + "," + (x + 1)) + ")"); //to do
+            if (turn)
+                Main.client.Write(new Packet(Main.client.getMyId(), x, y, Packet.State.Horizontal_Wall, Main.client.isTurn()));
+        }
+        catch(Exception e){
+            System.out.println("Error");
+        }
+    }
+
+    public void canMovePawn1(int pawn1x, int pawn1y){
         if(player_checked_state == 0) {
             if (CheckPawn1[pawn1x][pawn1y] == "setPawn") {
                 if (pawn1x + 1 >= ROWS) {
@@ -144,7 +178,7 @@ public class Quoridor extends JFrame implements MouseListener, ActionListener{
         }
     }
 
-    private void canMovePawn2(int pawn2x, int pawn2y) {
+    public void canMovePawn2(int pawn2x, int pawn2y) {
         if (player_checked_state == 0) {
             if (CheckPawn2[pawn2x][pawn2y] == "setPawn") {
                  if (pawn2x - 1 < 0) {
@@ -253,8 +287,7 @@ public class Quoridor extends JFrame implements MouseListener, ActionListener{
         }
     }
 
-    private void deletePawnSet1(int pawn1x, int pawn1y) {
-
+    public void deletePawnSet1(int pawn1x, int pawn1y) {
             if (CheckPawn1[pawn1x][pawn1y] == "cango") {
                 player_checked_state = 0;
                 if (x + 1 >= ROWS) {
@@ -290,7 +323,7 @@ public class Quoridor extends JFrame implements MouseListener, ActionListener{
                         CheckPawn1[x][y] = ""; // setPawn 지우기
 
                         CheckPawn1[pawn1x][pawn1y] = "setPawn";
-                    }else{
+                    } else {
                         Pawn.setPawn(0, pawn1x, pawn1y);
                         //회색 칠 지우기
                         Spaces[x - 1][y].setBackground(new Color(150, 75, 0));
@@ -339,13 +372,13 @@ public class Quoridor extends JFrame implements MouseListener, ActionListener{
 
                     //cango 지우기
                     CheckPawn1[x + 1][y] = "";
-                    CheckPawn1[x- 1][y] = "";
+                    CheckPawn1[x - 1][y] = "";
                     CheckPawn1[x][y + 1] = "";
 
                     CheckPawn1[x][y] = ""; // setPawn 지우기
 
                     CheckPawn1[pawn1x][pawn1y] = "setPawn";
-                }else{
+                } else {
                     Pawn.setPawn(0, pawn1x, pawn1y);
                     //회색 칠 지우기
                     Spaces[x + 1][y].setBackground(new Color(150, 75, 0));
@@ -367,13 +400,11 @@ public class Quoridor extends JFrame implements MouseListener, ActionListener{
                     CheckPawn1[pawn1x][pawn1y] = "setPawn";
                 }
                 walld = 0;
+                Main.client.Write(new Packet(Main.client.getMyId(), x, y, Packet.State.Move, Main.client.isTurn()));
             }
-
-
     }
 
-    private void deletePawnSet2(int pawn2x, int pawn2y) {
-
+    public void deletePawnSet2(int pawn2x, int pawn2y) {
         if (CheckPawn2[pawn2x][pawn2y] == "cango" || CheckPawn2[pawn2x][pawn2y] == "setPawn") {
             if (x - 1 < 0) {
                 if (y + 1 >= COLS) {
@@ -485,6 +516,19 @@ public class Quoridor extends JFrame implements MouseListener, ActionListener{
                 CheckPawn2[pawn2x][pawn2y] = "setPawn";
             }
             walld = 0;
+            Main.client.Write(new Packet(Main.client.getMyId(), x, y, Packet.State.Move, Main.client.isTurn()));
+        }
+    }
+
+    public void Enemy_Move(int x, int y, int ID) {
+        Pawn.setPawn(ID, x, y);
+        Spaces[x][y].setBackground(Color.gray);
+        if (ID == 0) {
+            CheckPawn1[x][y] = "setPawn";
+            System.out.println("x : " + x + " y : " + y + CheckPawn1[x][y]);
+        }else if (ID == 1) {
+            CheckPawn2[x][y] = "setPawn";
+            System.out.println("x : " + x + " y : " + y + CheckPawn2[x][y]);
         }
     }
     @Override
@@ -493,62 +537,29 @@ public class Quoridor extends JFrame implements MouseListener, ActionListener{
         List<Integer> select_verticalWall = getVerticalWall(event.getSource());
         List<Integer> select_horizontalWall = getHorizontalWall(event.getSource());
 
-        if(client.isTurn()) {
+        System.out.println("My Turn Check : " + Main.client.isTurn());
+        if(Main.client.isTurn()) {
             if (select_space != null) {
                 int x = select_space.get(0);
                 int y = select_space.get(1);
                 System.out.println("(" + (y + 1) + "," + (x + 1) + ")");
-                if(client.getMyId() == 0) {
-
+                if(Main.client.getMyId() == 0) {
                     canMovePawn1(x, y);
-                System.out.println(walld);
-
                     deletePawnSet1(x, y);
-                System.out.println(walld);
                 }else {
                     canMovePawn2(x, y);
-                    System.out.println(walld);
-
                     deletePawnSet2(x, y);
-                    System.out.println(walld);
                 }
 
             } else if (walld == 0 && select_verticalWall != null) {
-                if (select_verticalWall.get(0) + 1 >= ROWS) {
-                    if (CheckVwalls[select_verticalWall.get(0)][select_verticalWall.get(1)] != "Checked" && CheckVwalls[select_verticalWall.get(0) - 1][select_verticalWall.get(1)] != "Checked") {
-                        setVerticalWall(select_verticalWall.get(0) - 1, select_verticalWall.get(1));
-
-                        System.out.println("(" + (select_verticalWall.get(1) + 1 + "," + (select_verticalWall.get(0) + 1)) + ")," + "(" + (select_verticalWall.get(1) + 1 + "," + (select_verticalWall.get(0) + 2)) + ")"); // to do
-
-                        CheckVwalls[select_verticalWall.get(0)][select_verticalWall.get(1)] = "Checked";
-                        CheckVwalls[select_verticalWall.get(0) - 1][select_verticalWall.get(1)] = "Checked";
-                    }
-                } else if (CheckVwalls[select_verticalWall.get(0)][select_verticalWall.get(1)] != "Checked" && CheckVwalls[select_verticalWall.get(0) + 1][select_verticalWall.get(1)] != "Checked") {
-                    setVerticalWall(select_verticalWall.get(0), select_verticalWall.get(1));
-
-                    System.out.println("(" + (select_verticalWall.get(1) + 1 + "," + (select_verticalWall.get(0) + 1)) + ")," + "(" + (select_verticalWall.get(1) + 1 + "," + (select_verticalWall.get(0) + 2)) + ")"); // to do
-
-                    CheckVwalls[select_verticalWall.get(0)][select_verticalWall.get(1)] = "Checked";
-                    CheckVwalls[select_verticalWall.get(0) + 1][select_verticalWall.get(1)] = "Checked";
-                }
-            } else if (walld == 0 && select_horizontalWall != null) {
-                if (select_horizontalWall.get(1) + 1 >= COLS) {
-                    if (CheckHwalls[select_horizontalWall.get(0)][select_horizontalWall.get(1)] != "Checked" && CheckHwalls[select_horizontalWall.get(0)][select_horizontalWall.get(1) - 1] != "Checked") {
-                        setHorizontalWall(select_horizontalWall.get(0), select_horizontalWall.get(1) - 1);
-
-                        System.out.println("(" + (select_horizontalWall.get(1) + 1 + "," + (select_horizontalWall.get(0) + 1)) + ")," + "(" + (select_horizontalWall.get(1) + 2 + "," + (select_horizontalWall.get(0) + 1)) + ")"); // to do
-
-                        CheckHwalls[select_horizontalWall.get(0)][select_horizontalWall.get(1)] = "Checked";
-                        CheckHwalls[select_horizontalWall.get(0)][select_horizontalWall.get(1) - 1] = "Checked";
-                    }
-                } else if (CheckHwalls[select_horizontalWall.get(0)][select_horizontalWall.get(1)] != "Checked" && CheckHwalls[select_horizontalWall.get(0)][select_horizontalWall.get(1) + 1] != "Checked") {
-                    setHorizontalWall(select_horizontalWall.get(0), select_horizontalWall.get(1));
-
-                    System.out.println("(" + (select_horizontalWall.get(1) + 1 + "," + (select_horizontalWall.get(0) + 1)) + ")," + "(" + (select_horizontalWall.get(1) + 2 + "," + (select_horizontalWall.get(0) + 1)) + ")"); //to do
-
-                    CheckHwalls[select_horizontalWall.get(0)][select_horizontalWall.get(1)] = "Checked";
-                    CheckHwalls[select_horizontalWall.get(0)][select_horizontalWall.get(1) + 1] = "Checked";
-                }
+                int x = select_verticalWall.get(0);
+                int y = select_verticalWall.get(1);
+                CreateVerticalWall(x, y, Main.client.isTurn());
+            }
+            else if (walld == 0 && select_horizontalWall != null) {
+                int x = select_horizontalWall.get(0);
+                int y = select_horizontalWall.get(1);
+                CreateHorizontalWall(x, y, Main.client.isTurn());
             } else {
                 System.out.println("확인되지 않은 플레이");
             }

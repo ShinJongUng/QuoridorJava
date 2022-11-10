@@ -8,12 +8,13 @@ import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
 public class Server {
-    Set<SocketChannel> allClient;
+    ArrayList<SocketChannel> allClient;
     ServerSocketChannel socket;
     public Selector selector;
     private ByteBuffer inputBuffer;
@@ -22,7 +23,7 @@ public class Server {
     Server(int port) throws IOException{
         pt = new PKT_Serialized();
 
-        allClient = new HashSet<>();
+        allClient = new ArrayList<SocketChannel>();
         socket = ServerSocketChannel.open();
         socket.bind(new InetSocketAddress(port));
 
@@ -60,7 +61,9 @@ public class Server {
         clientSock.register(selector, SelectionKey.OP_READ, information);
         System.out.println(clientSock.getLocalAddress());
 
-        Write(pk);
+        Write(pk, pk.getId());
+        if(pk.getId() == 1)
+            Write(pk, 0);
     }
     void Read(SelectionKey key){
         SocketChannel readSocket = (SocketChannel) key.channel();
@@ -71,14 +74,16 @@ public class Server {
             inputBuffer.flip();
             Packet pk = pt.DeSerialized(Packet.class, inputBuffer);
             if(pk.getId() == 0) {
-                System.out.println("Host : " + pk.getX() + " " + pk.getY());
+                System.out.println(pk.getId() + " : " + pk.getX() + " " + pk.getY());
+                Write(pk, 1);
             }
             else {
-                System.out.println("Client : " + pk.getX() + " " + pk.getY());
+                System.out.println(pk.getId() + " : " + pk.getX() + " " + pk.getY());
+                Write(pk, 0);
             }
             info.setX(pk.getX());
             info.setY(pk.getY());
-            Write(pk);
+
         }
         catch(IOException e){
             key.cancel();
@@ -87,20 +92,15 @@ public class Server {
         }
     }
 
-    void Write(Object data){ //ByteBuffer 전달
-        SocketChannel socketChannel = null;
+    void Write(Object data, int index){ //ByteBuffer 전달
         inputBuffer.clear();
         try {
             pt.Serialized(data, inputBuffer);
-            for(SocketChannel sock : allClient){
-                inputBuffer.flip();
-                socketChannel = sock;
-                sock.write(inputBuffer);
-                System.out.println("정보 보냄");
-            }
+            inputBuffer.flip();
+            SocketChannel sock = allClient.get(index);
+            sock.write(inputBuffer);
         }
         catch(Exception e){
-            allClient.remove(socketChannel);
             System.out.println("클라이언트와 연결이 종료되었습니다.");
         }
     }

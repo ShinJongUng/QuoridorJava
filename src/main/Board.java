@@ -6,11 +6,8 @@ import main.Client;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import javax.swing.text.JTextComponent;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseListener;
+
 
 public class Board extends JFrame{
     // 보드
@@ -26,23 +23,21 @@ public class Board extends JFrame{
     public static String [][] CheckPawn1 = new String[ROWS][COLS];
     public static String [][] CheckPawn2 = new String[ROWS][COLS];
 
-    public static Client client; // 소켓 통신
+    public Quoridor quoridor;
     private JButton space(Color bg)
     {
-        Quoridor quoridor = new Quoridor();
+        quoridor = new Quoridor();
         JButton space = new JButton();
         space.setBorder(new EmptyBorder(0,0,0,0));
         space.setBackground(bg);
         space.setForeground(Color.WHITE);
         space.addActionListener(quoridor);
-        space.addMouseListener(quoridor);
+        //space.addMouseListener(quoridor);
         return space;
     }
 
     public void initBoard()
     {
-        //client = new Client(5000);
-
         initialBoardArray();
         Component[][] grid = new Component[2 * ROWS - 1][2 * COLS - 1];
 
