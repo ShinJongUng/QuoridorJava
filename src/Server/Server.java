@@ -9,9 +9,7 @@ import java.nio.channels.Selector;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Iterator;
-import java.util.Set;
 
 public class Server {
     ArrayList<SocketChannel> allClient;
@@ -46,11 +44,11 @@ public class Server {
         Packet pk;
         Information information = new Information();
         if(allClient.isEmpty()) {
-            pk = new Packet(0, 4, 0, Packet.State.Start, false);
+            pk = new Packet(0, 8, 4, Packet.State.Start, false);
             information.setId(0);
         }
         else {
-            pk = new Packet(1, 4, 8, Packet.State.Start, false);
+            pk = new Packet(1, 0, 4, Packet.State.Start, false);
             information.setId(1);
         }
         information.setX(1);

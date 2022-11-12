@@ -1,9 +1,5 @@
 package main;
-
-import DB.Packet;
-
 import javax.swing.*;
-import java.awt.*;
 
 public class Main {
     public static Client client;
@@ -20,11 +16,6 @@ public class Main {
         board.initBoard();
         board.setSize(900,690);
         board.setVisible(true); //창 열기
-    }
-    public static void main(String[] args) throws Throwable
-    {
-        UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName()); // UI 디자인 라이브러리
-        Main m = new Main();
     }
 }
 

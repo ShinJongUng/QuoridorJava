@@ -1,18 +1,10 @@
 package main;
-import DB.Information;
-import DB.Packet;
-import jdk.dynalink.beans.StaticClass;
-import main.Client;
-
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
-
-
 public class Board extends JFrame{
     // 보드
     public static int x, y, walld, player_checked_state = 0;
-    public static int pawn1x, pawn1y;
     static final int ROWS = 9, COLS = 9;
     public static JButton[][] Spaces = new JButton[ROWS][COLS];
     public static JButton[][] CenterWalls = new JButton[ROWS-1][COLS-1];
@@ -95,12 +87,6 @@ public class Board extends JFrame{
         }
         layout.setHorizontalGroup(horizontalSequentialGroup);
         layout.setVerticalGroup(verticalSequentialGroup);
-
-//        if(client.getMyId() == 0)
-//            client.setX(ROWS-1);
-//        else
-//            client.setX(0);
-//        client.setY(COLS/2);
 
         Pawn.setPawn(0, ROWS-1, COLS / 2); // 말 첫 위치 지정
         Pawn.setPawn(1, 0, COLS / 2); // 말 첫 위치 지정
