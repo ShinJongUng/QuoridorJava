@@ -1,6 +1,5 @@
 package DB;
 import java.io.Serializable;
-
 public class PKT_Header implements Serializable {
 
 

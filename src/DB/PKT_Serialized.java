@@ -2,7 +2,6 @@ package DB;
 
 import java.io.*;
 import java.nio.ByteBuffer;
-
 public class PKT_Serialized {
     int headerSize = 0;
     public PKT_Serialized(){

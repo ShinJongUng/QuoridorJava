@@ -48,6 +48,8 @@ public class Client extends Information{
                 // 게임 접속
                 if(getMyId() == -1) {
                     setId(pk.getId());
+                    setX(pk.getX());
+                    setY(pk.getY());
                     if(getMyId() == 0)
                         Read();
                 }
@@ -65,13 +67,7 @@ public class Client extends Information{
             if(pk.isTurn() && pk.getId() != getMyId() && !isTurn()) {
                 System.out.println("Enemy Action");
                 if (pk.getState() == Packet.State.Move) {
-                    if (getMyId() == 0) {
-                        System.out.println("2번 움직임");
-                        Main.board.quoridor.Enemy_Move(pk.getX(), pk.getY(), 1);
-                    }else if (getMyId() == 1) {
-                        System.out.println("1번 움직임");
-                        Main.board.quoridor.Enemy_Move(pk.getX(), pk.getY(), 0);
-                    }
+                    Main.board.quoridor.Enemy_Move(pk.getX(), pk.getY(), pk.getId());
                     changeTurn();
                 }
                 else if (pk.getState() == Packet.State.Horizontal_Wall) {

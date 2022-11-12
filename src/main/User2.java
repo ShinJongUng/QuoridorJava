@@ -1,7 +1,4 @@
 package main;
-
-import DB.Packet;
-
 import javax.swing.*;
 
 public class User2 {

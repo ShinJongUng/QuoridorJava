@@ -1,5 +1,4 @@
 package DB;
-
 public class Information{
     public int getMyId() {
         return myId;

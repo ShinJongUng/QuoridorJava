@@ -4,20 +4,72 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.sql.SQLOutput;
+import java.util.LinkedList;
 import java.util.List;
-import java.util.*;
+import java.util.Queue;
 import static java.util.Arrays.*;
 import static main.Board.*;
-import static main.Board.y;
-
-import main.Pawn.*;
 import DB.*;
+import javafx.util.Pair;
 
 public class Quoridor extends JFrame implements ActionListener{
 
+    Queue<Pair<Integer, Integer>> queue = new LinkedList<>();
+    boolean[][] visited = new boolean[ROWS][COLS];
+    int[] dist_x = { 1, -1, 0, 0};
+    int[] dist_y = { 0, 0, 1, -1};
+    private boolean BFS_Path(int ID){
+        queue.clear();
+        for(int i = 0 ;i<ROWS;i++){
+            for(int j = 0;j<COLS; j++){
+                visited[i][j] = false;
+            }
+        }
+        int x = Pawn.pawn_Location[ID][0];
+        int y = Pawn.pawn_Location[ID][1];
+        System.out.println("시작 위치 : " + x + " " + y);
+        visited[x][y] = true;
+        queue.add(new Pair<Integer, Integer>(x, y));
+
+        while(!queue.isEmpty()){
+            Pair<Integer, Integer> pair = queue.poll();
+            for(int i = 0;i<4;i++){
+                int rx = pair.getKey() + dist_x[i];
+                int ry = pair.getValue() + dist_y[i];
+                if(Is_Path(rx, ry) && !visited[rx][ry]){
+                    visited[rx][ry] = true;
+                    if(i == 0 && Is_Horizontal(pair.getKey(),pair.getValue()))
+                        continue;
+                    else if(i == 1 && Is_Horizontal(pair.getKey()-1,pair.getValue()))
+                        continue;
+                    else if(i == 2 && Is_Vertical(pair.getKey(),pair.getValue()))
+                        continue;
+                    else if(i == 3 && Is_Vertical(pair.getKey(),pair.getValue()-1))
+                        continue;
+                    else
+                        queue.add(new Pair<Integer, Integer>(rx, ry));
+                }
+                if(ID == 0 && rx == 0)
+                    return true;
+                else if(ID == 1 && rx == 8)
+                    return true;
+            }
+        }
+        System.out.println("실패함");
+        return false;
+    }
+    private boolean Is_Path(int x, int y){
+        if(x < 0|| y < 0 || x > COLS -1 || y > ROWS - 1) {
+            return false;
+        }
+        return true;
+    }
+    private boolean Is_Vertical(int x, int y){
+        return CheckVwalls[x][y] == "Checked";
+    }
+    private boolean Is_Horizontal(int x, int y){
+        return CheckHwalls[x][y] == "Checked";
+    }
     public void setVerticalWall(int r, int c) {
         Board.VerticalWalls[r + 1][c].setBackground(Color.orange); // 누른곳 밑
         Board.VerticalWalls[r][c].setBackground(Color.orange);
@@ -28,46 +80,79 @@ public class Quoridor extends JFrame implements ActionListener{
         Board.HorizontalWalls[r][c].setBackground(Color.orange); // 누른곳
         Board.CenterWalls[r][c].setBackground(Color.orange); // 가운데
     }
-
     public void CreateVerticalWall(int x, int y, boolean turn){
-        if (x + 1 >= ROWS) {
-            if (CheckVwalls[x][y] != "Checked" && CheckVwalls[x - 1][y] != "Checked") {
-                setVerticalWall(x - 1, y);
+        boolean possible = false;
+        try {
+            if (x + 1 >= ROWS) {
+                if (CheckVwalls[x][y] != "Checked" && CheckVwalls[x - 1][y] != "Checked") {
+                    CheckVwalls[x][y] = "Checked";
+                    CheckVwalls[x - 1][y] = "Checked";
+                    if (turn && (!BFS_Path(0) || !BFS_Path(1))) {
+                        CheckVwalls[x][y] = "";
+                        CheckVwalls[x - 1][y] = "";
+                    }
+                    else {
+                        setVerticalWall(x - 1, y);
+                        possible = true;
+                    }
+                }
+            } else if (CheckVwalls[x][y] != "Checked" && CheckVwalls[x + 1][y] != "Checked") {
                 CheckVwalls[x][y] = "Checked";
-                CheckVwalls[x - 1][y] = "Checked";
+                CheckVwalls[x + 1][y] = "Checked";
+                if (turn && (!BFS_Path(0) || !BFS_Path(1))) {
+                    CheckVwalls[x][y] = "";
+                    CheckVwalls[x + 1][y] = "";
+                }
+                else{
+                    setVerticalWall(x, y);
+                    possible = true;
+                }
             }
-        } else if (CheckVwalls[x][y] != "Checked" && CheckVwalls[x + 1][y] != "Checked") {
-            setVerticalWall(x, y);
-            CheckVwalls[x][y] = "Checked";
-            CheckVwalls[x + 1][y] = "Checked";
+            System.out.println("(" + (y + 1 + "," + (x + 1)) + ")," + "(" + (y + 1 + "," + (x + 2)) + ")"); // to do
+            if (turn && possible)
+                Main.client.Write(new Packet(Main.client.getMyId(), x, y, Packet.State.Vertical_Wall, Main.client.isTurn()));
+        } catch (Exception e) {
+            System.out.println("Error VerticalWalls");
         }
-        System.out.println("(" + (y + 1 + "," + (x + 1)) + ")," + "(" + (y + 1 + "," + (x + 2)) + ")"); // to do
-        if(turn)
-            Main.client.Write(new Packet(Main.client.getMyId(), x, y, Packet.State.Vertical_Wall, Main.client.isTurn()));
     }
     public void CreateHorizontalWall(int x, int y, boolean turn){
         System.out.println("가로 벽 실행");
+        boolean possible = false;
         try {
             if (y + 1 >= COLS) {
                 if (CheckHwalls[x][y] != "Checked" && CheckHwalls[x][y - 1] != "Checked") {
-                    setHorizontalWall(x, y - 1);
                     CheckHwalls[x][y] = "Checked";
                     CheckHwalls[x][y - 1] = "Checked";
+                    if (turn && (!BFS_Path(0) || !BFS_Path(1))) {
+                        CheckHwalls[x][y] = "";
+                        CheckHwalls[x][y - 1] = "";
+                    }
+                    else {
+                        setHorizontalWall(x, y - 1);
+                        possible = true;
+                    }
                 }
             } else if (CheckHwalls[x][y] != "Checked" && CheckHwalls[x][y + 1] != "Checked") {
-                setHorizontalWall(x, y);
                 CheckHwalls[x][y] = "Checked";
                 CheckHwalls[x][y + 1] = "Checked";
+                if (turn && (!BFS_Path(0) || !BFS_Path(1))) {
+                    CheckHwalls[x][y] = "";
+                    CheckHwalls[x][y + 1] = "";
+                    System.out.println("실패했어요. ");
+                }
+                else {
+                    setHorizontalWall(x, y);
+                    possible = true;
+                }
             }
             System.out.println("(" + (y + 1 + "," + (x + 1)) + ")," + "(" + (y + 2 + "," + (x + 1)) + ")"); //to do
-            if (turn)
+            if (turn && possible)
                 Main.client.Write(new Packet(Main.client.getMyId(), x, y, Packet.State.Horizontal_Wall, Main.client.isTurn()));
         }
         catch(Exception e){
-            System.out.println("Error");
+            System.out.println("Error Horizontal Wall");
         }
     }
-
     public void canMovePawn1(int pawn1x, int pawn1y){
         if(player_checked_state == 0) {
             if (CheckPawn1[pawn1x][pawn1y] == "setPawn") {
@@ -176,10 +261,8 @@ public class Quoridor extends JFrame implements ActionListener{
             }
         }
     }
-
     public void canMovePawn2(int pawn2x, int pawn2y) {
         if (player_checked_state == 0) {
-            System.out.println("작동");
             if (CheckPawn2[pawn2x][pawn2y] == "setPawn") {
                  if (pawn2x - 1 < 0) {
                     if (pawn2y + 1 >= COLS) {
@@ -286,7 +369,6 @@ public class Quoridor extends JFrame implements ActionListener{
             walld = 0;
         }
     }
-
     public void deletePawnSet1(int pawn1x, int pawn1y) {
             if (CheckPawn1[pawn1x][pawn1y] == "cango") {
                 player_checked_state = 0;
@@ -403,9 +485,9 @@ public class Quoridor extends JFrame implements ActionListener{
                 Main.client.Write(new Packet(Main.client.getMyId(), pawn1x, pawn1y, Packet.State.Move, Main.client.isTurn()));
             }
     }
-
     public void deletePawnSet2(int pawn2x, int pawn2y) {
         if (CheckPawn2[pawn2x][pawn2y] == "cango") {
+            player_checked_state = 0;
             if (x - 1 < 0) {
                 if (y + 1 >= COLS) {
                     Pawn.setPawn(1, pawn2x, pawn2y);
@@ -515,7 +597,6 @@ public class Quoridor extends JFrame implements ActionListener{
 
                 CheckPawn2[pawn2x][pawn2y] = "setPawn";
             }
-            walld = 0;
             Main.client.Write(new Packet(Main.client.getMyId(), pawn2x, pawn2y, Packet.State.Move, Main.client.isTurn()));
         }
     }
@@ -542,7 +623,7 @@ public class Quoridor extends JFrame implements ActionListener{
             if (select_space != null) {
                 int x = select_space.get(0);
                 int y = select_space.get(1);
-                System.out.println("(" + (y + 1) + "," + (x + 1) + ")");
+                System.out.println("(" + y + "," + x + ")");
                 if(Main.client.getMyId() == 0) {
                     canMovePawn1(x, y);
                     deletePawnSet1(x, y);
@@ -550,7 +631,6 @@ public class Quoridor extends JFrame implements ActionListener{
                     canMovePawn2(x, y);
                     deletePawnSet2(x, y);
                 }
-
             } else if (walld == 0 && select_verticalWall != null) {
                 int x = select_verticalWall.get(0);
                 int y = select_verticalWall.get(1);
