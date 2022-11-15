@@ -223,12 +223,14 @@ public class Quoridor extends JFrame implements ActionListener{
                     x = pawn1x;
                     y = pawn1y;
                 }
+
                 if (pawn1y > 0) {
                     if (CheckVwalls[pawn1x][pawn1y - 1] == "Checked") {
                         Spaces[pawn1x][pawn1y - 1].setBackground(new Color(150, 75, 0));
                         CheckPawn1[pawn1x][pawn1y - 1] = "";
                     }
                 }
+
                 if (CheckVwalls[pawn1x][pawn1y] == "Checked") {
                     Spaces[pawn1x][pawn1y + 1].setBackground(new Color(150, 75, 0));
                     CheckPawn1[pawn1x][pawn1y + 1] = "";
@@ -249,16 +251,76 @@ public class Quoridor extends JFrame implements ActionListener{
             walld = 1;
         }else{
             if (CheckPawn1[pawn1x][pawn1y] == "setPawn") {
-                Spaces[pawn1x + 1][pawn1y].setBackground(new Color(150, 75, 0));
-                Spaces[pawn1x - 1][pawn1y].setBackground(new Color(150, 75, 0));
-                Spaces[pawn1x][pawn1y + 1].setBackground(new Color(150, 75, 0));
-                Spaces[pawn1x][pawn1y - 1].setBackground(new Color(150, 75, 0));
-                CheckPawn1[pawn1x][pawn1y + 1] = "";
-                CheckPawn1[pawn1x][pawn1y - 1] = "";
-                CheckPawn1[pawn1x + 1][pawn1y] = "";
-                CheckPawn1[pawn1x - 1][pawn1y] = "";
+                if (pawn1x + 1 >= ROWS) {
+                    if (pawn1y + 1 >= COLS) {
+                        Spaces[pawn1x - 1][pawn1y].setBackground(new Color(150, 75, 0));
+                        Spaces[pawn1x][pawn1y - 1].setBackground(new Color(150, 75, 0));
+
+                        CheckPawn1[pawn1x - 1][pawn1y] = "";
+                        CheckPawn1[pawn1x][pawn1y - 1] = "";
+
+                        x = pawn1x;
+                        y = pawn1y;
+                    } else if (pawn1y - 1 < 0) {
+                        Spaces[pawn1x - 1][pawn1y].setBackground(new Color(150, 75, 0));
+                        Spaces[pawn1x][pawn1y + 1].setBackground(new Color(150, 75, 0));
+
+                        CheckPawn1[pawn1x - 1][pawn1y] = "";
+                        CheckPawn1[pawn1x][pawn1y + 1] = "";
+
+                        x = pawn1x;
+                        y = pawn1y;
+                    } else {
+                        Spaces[pawn1x - 1][pawn1y].setBackground(new Color(150, 75, 0));
+                        Spaces[pawn1x][pawn1y + 1].setBackground(new Color(150, 75, 0));
+                        Spaces[pawn1x][pawn1y - 1].setBackground(new Color(150, 75, 0));
+
+                        CheckPawn1[pawn1x - 1][pawn1y] = "";
+                        CheckPawn1[pawn1x][pawn1y + 1] = "";
+                        CheckPawn1[pawn1x][pawn1y - 1] = "";
+
+                        x = pawn1x;
+                        y = pawn1y;
+                    }
+                } else if (pawn1y + 1 >= COLS) {
+                    Spaces[pawn1x + 1][pawn1y].setBackground(new Color(150, 75, 0));
+                    Spaces[pawn1x - 1][pawn1y].setBackground(new Color(150, 75, 0));
+                    Spaces[pawn1x][pawn1y - 1].setBackground(new Color(150, 75, 0));
+
+                    CheckPawn1[pawn1x + 1][pawn1y] = "";
+                    CheckPawn1[pawn1x - 1][pawn1y] = "";
+                    CheckPawn1[pawn1x][pawn1y - 1] = "";
+
+                    x = pawn1x;
+                    y = pawn1y;
+                } else if (pawn1y - 1 < 0) {
+                    Spaces[pawn1x + 1][pawn1y].setBackground(new Color(150, 75, 0));
+                    Spaces[pawn1x - 1][pawn1y].setBackground(new Color(150, 75, 0));
+                    Spaces[pawn1x][pawn1y + 1].setBackground(new Color(150, 75, 0));
+
+                    CheckPawn1[pawn1x + 1][pawn1y] = "";
+                    CheckPawn1[pawn1x - 1][pawn1y] = "";
+                    CheckPawn1[pawn1x][pawn1y + 1] = "";
+
+                    x = pawn1x;
+                    y = pawn1y;
+                } else {
+                    Spaces[pawn1x + 1][pawn1y].setBackground(new Color(150, 75, 0));
+                    Spaces[pawn1x - 1][pawn1y].setBackground(new Color(150, 75, 0));
+                    Spaces[pawn1x][pawn1y + 1].setBackground(new Color(150, 75, 0));
+                    Spaces[pawn1x][pawn1y - 1].setBackground(new Color(150, 75, 0));
+
+                    CheckPawn1[pawn1x + 1][pawn1y] = "";
+                    CheckPawn1[pawn1x - 1][pawn1y] = "";
+                    CheckPawn1[pawn1x][pawn1y + 1] = "";
+                    CheckPawn1[pawn1x][pawn1y - 1] = "";
+
+                    x = pawn1x;
+                    y = pawn1y;
+                }
                 player_checked_state = 0;
             }
+            walld = 0;
         }
     }
     public void canMovePawn2(int pawn2x, int pawn2y) {
@@ -284,6 +346,7 @@ public class Quoridor extends JFrame implements ActionListener{
                         x = pawn2x;
                         y = pawn2y;
                     } else {
+                        System.out.println("dd");
                         Spaces[pawn2x + 1][pawn2y].setBackground(Color.gray);
                         Spaces[pawn2x][pawn2y - 1].setBackground(Color.gray);
                         Spaces[pawn2x][pawn2y + 1].setBackground(Color.gray);
@@ -331,6 +394,7 @@ public class Quoridor extends JFrame implements ActionListener{
                     x = pawn2x;
                     y = pawn2y;
                 }
+
                 if (pawn2y > 0) {
                     if (CheckVwalls[pawn2x][pawn2y - 1] == "Checked") {
                         Spaces[pawn2x][pawn2y - 1].setBackground(new Color(150, 75, 0));
@@ -356,14 +420,73 @@ public class Quoridor extends JFrame implements ActionListener{
             }
         } else {
             if (CheckPawn2[pawn2x][pawn2y] == "setPawn") {
-                Spaces[pawn2x + 1][pawn2y].setBackground(new Color(150, 75, 0));
-                Spaces[pawn2x - 1][pawn2y].setBackground(new Color(150, 75, 0));
-                Spaces[pawn2x][pawn2y + 1].setBackground(new Color(150, 75, 0));
-                Spaces[pawn2x][pawn2y - 1].setBackground(new Color(150, 75, 0));
-                CheckPawn2[pawn2x][pawn2y + 1] = "";
-                CheckPawn2[pawn2x][pawn2y - 1] = "";
-                CheckPawn2[pawn2x + 1][pawn2y] = "";
-                CheckPawn2[pawn2x - 1][pawn2y] = "";
+                if (pawn2x - 1 < 0) {
+                    if (pawn2y + 1 >= COLS) {
+                        Spaces[pawn2x + 1][pawn2y].setBackground(new Color(150, 75, 0));
+                        Spaces[pawn2x][pawn2y - 1].setBackground(new Color(150, 75, 0));
+
+                        CheckPawn2[pawn2x + 1][pawn2y] = "";
+                        CheckPawn2[pawn2x][pawn2y - 1] = "";
+
+                        x = pawn2x;
+                        y = pawn2y;
+                    } else if (pawn2y - 1 < 0) {
+                        Spaces[pawn2x + 1][pawn2y].setBackground(new Color(150, 75, 0));
+                        Spaces[pawn2x][pawn2y + 1].setBackground(new Color(150, 75, 0));
+
+                        CheckPawn2[pawn2x + 1][pawn2y] = "";
+                        CheckPawn2[pawn2x][pawn2y + 1] = "";
+
+                        x = pawn2x;
+                        y = pawn2y;
+                    } else {
+                        Spaces[pawn2x + 1][pawn2y].setBackground(new Color(150, 75, 0));
+                        Spaces[pawn2x][pawn2y - 1].setBackground(new Color(150, 75, 0));
+                        Spaces[pawn2x][pawn2y + 1].setBackground(new Color(150, 75, 0));
+
+                        CheckPawn2[pawn2x + 1][pawn2y] = "";
+                        CheckPawn2[pawn2x][pawn2y - 1] = "";
+                        CheckPawn2[pawn2x][pawn2y + 1] = "";
+
+                        x = pawn2x;
+                        y = pawn2y;
+                    }
+                } else if (pawn2y + 1 >= COLS) {
+                    Spaces[pawn2x + 1][pawn2y].setBackground(new Color(150, 75, 0));
+                    Spaces[pawn2x - 1][pawn2y].setBackground(new Color(150, 75, 0));
+                    Spaces[pawn2x][pawn2y - 1].setBackground(new Color(150, 75, 0));
+
+                    CheckPawn2[pawn2x + 1][pawn2y] = "";
+                    CheckPawn2[pawn2x - 1][pawn2y] = "";
+                    CheckPawn2[pawn2x][pawn2y - 1] = "";
+
+                    x = pawn2x;
+                    y = pawn2y;
+                } else if (pawn2y - 1 < 0) {
+                    Spaces[pawn2x + 1][pawn2y].setBackground(new Color(150, 75, 0));
+                    Spaces[pawn2x - 1][pawn2y].setBackground(new Color(150, 75, 0));
+                    Spaces[pawn2x][pawn2y + 1].setBackground(new Color(150, 75, 0));
+
+                    CheckPawn2[pawn2x + 1][pawn2y] = "";
+                    CheckPawn2[pawn2x - 1][pawn2y] = "";
+                    CheckPawn2[pawn2x][pawn2y + 1] = "";
+
+                    x = pawn2x;
+                    y = pawn2y;
+                } else {
+                    Spaces[pawn2x + 1][pawn2y].setBackground(new Color(150, 75, 0));
+                    Spaces[pawn2x - 1][pawn2y].setBackground(new Color(150, 75, 0));
+                    Spaces[pawn2x][pawn2y + 1].setBackground(new Color(150, 75, 0));
+                    Spaces[pawn2x][pawn2y - 1].setBackground(new Color(150, 75, 0));
+
+                    CheckPawn2[pawn2x + 1][pawn2y] = "";
+                    CheckPawn2[pawn2x - 1][pawn2y] = "";
+                    CheckPawn2[pawn2x][pawn2y + 1] = "";
+                    CheckPawn2[pawn2x][pawn2y - 1] = "";
+
+                    x = pawn2x;
+                    y = pawn2y;
+                }
                 player_checked_state = 0;
             }
             walld = 0;
@@ -482,6 +605,7 @@ public class Quoridor extends JFrame implements ActionListener{
                     CheckPawn1[pawn1x][pawn1y] = "setPawn";
                 }
                 walld = 0;
+                Win(pawn1x, Main.client.getMyId());
                 Main.client.Write(new Packet(Main.client.getMyId(), pawn1x, pawn1y, Packet.State.Move, Main.client.isTurn()));
             }
     }
@@ -597,7 +721,26 @@ public class Quoridor extends JFrame implements ActionListener{
 
                 CheckPawn2[pawn2x][pawn2y] = "setPawn";
             }
+            Win(pawn2x, Main.client.getMyId());
             Main.client.Write(new Packet(Main.client.getMyId(), pawn2x, pawn2y, Packet.State.Move, Main.client.isTurn()));
+        }
+    }
+
+    public void Win(int x, int ID){
+        if(ID == 0) {
+            if (x == 0) {
+                JOptionPane.showMessageDialog(this, "Player1 승리", "게임 종료", JOptionPane.INFORMATION_MESSAGE, null);
+                answer = 1;
+            }
+        }else if(ID == 1) {
+            if(x == 8) {
+                JOptionPane.showMessageDialog(this, "Player2 승리", "게임 종료", JOptionPane.INFORMATION_MESSAGE, null);
+                answer = 1;
+            }
+        }
+        if(answer== 1) {  //사용자가 yes를 눌렀을 경우
+            System.out.println("프로그램을 종료합니다.");
+            System.exit(0);
         }
     }
 
@@ -606,10 +749,10 @@ public class Quoridor extends JFrame implements ActionListener{
         Spaces[px][py].setBackground(Color.gray);
         if (ID == 0) {
             CheckPawn1[x][y] = ""; // setPawn 지우기
-            CheckPawn1[px][py] = "setPawn";
+            CheckPawn1[px][py] = "setPawn1";
         }else if (ID == 1) {
             CheckPawn2[x][y] = ""; // setPawn 지우기
-            CheckPawn2[px][py] = "setPawn";
+            CheckPawn2[px][py] = "setPawn2";
         }
     }
     @Override
