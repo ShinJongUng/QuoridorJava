@@ -226,7 +226,7 @@ public class Quoridor extends JFrame implements ActionListener{
 
                 if (pawn1y > 0) {
                     if (CheckVwalls[pawn1x][pawn1y - 1] == "Checked") {
-                        Spaces[pawn1x][pawn1y - 1].setBackground(Color.gray);
+                        Spaces[pawn1x][pawn1y - 1].setBackground(new Color(150, 75, 0));
                         CheckPawn1[pawn1x][pawn1y - 1] = "";
                     }
                 }
@@ -393,28 +393,6 @@ public class Quoridor extends JFrame implements ActionListener{
 
                     x = pawn2x;
                     y = pawn2y;
-                }
-
-                if (pawn2y > 0) {
-                    if (CheckPawn1[pawn2x][pawn2y - 1] == "setPawn") {
-                        Spaces[pawn2x][pawn2y - 1].setBackground(Color.black);
-                        CheckPawn2[pawn2x][pawn2y - 1] = "";
-                    }
-                }
-                if (CheckPawn1[pawn2x][pawn2y + 1] == "setPawn") {
-                    Spaces[pawn2x][pawn2y + 1].setBackground(Color.black);
-                    CheckPawn2[pawn2x][pawn2y + 1] = "";
-                }
-                if (pawn2x > 0) {
-                    if (CheckPawn1[pawn2x - 1][pawn2y] == "setPawn") {
-                        Spaces[pawn2x - 1][pawn2y].setBackground(Color.black);
-                        CheckPawn2[pawn2x - 1][pawn2y] = "";
-                    }
-                }
-
-                if (CheckPawn1[pawn2x + 1][pawn2y] == "setPawn") {
-                    Spaces[pawn2x + 1][pawn2y].setBackground(Color.black);
-                    CheckPawn2[pawn2x + 1][pawn2y] = "";
                 }
 
                 if (pawn2y > 0) {
