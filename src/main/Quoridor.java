@@ -249,6 +249,16 @@ public class Quoridor extends JFrame implements ActionListener{
             }
             player_checked_state = 1;
             walld = 1;
+            for(int i = 0 ;i<4; i++) {
+                int x = pawn1x + dist_x[i];
+                int y = pawn1x + dist_y[i];
+                if (Is_Path(x, y) && Pawn.pawn_Location[1][0] == x && Pawn.pawn_Location[1][1] == y) {
+                    System.out.println(x + " " + y);
+                    CheckPawn1[x][y] = "";
+                    Spaces[x][y].setBackground(Color.GRAY);
+                    break;
+                }
+            }
         }else{
             if (CheckPawn1[pawn1x][pawn1y] == "setPawn") {
                 if (pawn1x + 1 >= ROWS) {
@@ -417,6 +427,16 @@ public class Quoridor extends JFrame implements ActionListener{
                 }
                 walld = 1;
                 player_checked_state = 1;
+                for(int i = 0 ;i<4; i++) {
+                    int x = pawn2x + dist_x[i];
+                    int y = pawn2y + dist_y[i];
+                    if (Is_Path(x, y) && Pawn.pawn_Location[0][0] == x && Pawn.pawn_Location[0][1] == y) {
+                        System.out.println("겹침 " + x + " " + y);
+                        CheckPawn2[x][y] = "";
+                        Spaces[x][y].setBackground(Color.GRAY);
+                        break;
+                    }
+                }
             }
         } else {
             if (CheckPawn2[pawn2x][pawn2y] == "setPawn") {
@@ -725,7 +745,6 @@ public class Quoridor extends JFrame implements ActionListener{
             Main.client.Write(new Packet(Main.client.getMyId(), pawn2x, pawn2y, Packet.State.Move, Main.client.isTurn()));
         }
     }
-
     public void Win(int x, int ID){
         if(ID == 0) {
             if (x == 0) {
@@ -743,16 +762,19 @@ public class Quoridor extends JFrame implements ActionListener{
             System.exit(0);
         }
     }
-
     public void Enemy_Move(int px, int py, int ID) {
         Pawn.setPawn(ID, px, py);
         Spaces[px][py].setBackground(Color.gray);
         if (ID == 0) {
             CheckPawn1[x][y] = ""; // setPawn 지우기
             CheckPawn1[px][py] = "setPawn1";
+            Pawn.pawn_Location[0][0] = px;
+            Pawn.pawn_Location[0][1] = py;
         }else if (ID == 1) {
             CheckPawn2[x][y] = ""; // setPawn 지우기
             CheckPawn2[px][py] = "setPawn2";
+            Pawn.pawn_Location[1][0] = px;
+            Pawn.pawn_Location[1][1] = py;
         }
     }
     @Override
