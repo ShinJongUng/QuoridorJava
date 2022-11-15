@@ -1,10 +1,11 @@
 package main;
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 public class Board extends JFrame{
     // 보드
-    public static int x, y, walld, player_checked_state = 0;
+    public static int x, y, walld, player_checked_state = 0, answer;
     static final int ROWS = 9, COLS = 9;
     public static JButton[][] Spaces = new JButton[ROWS][COLS];
     public static JButton[][] CenterWalls = new JButton[ROWS-1][COLS-1];
