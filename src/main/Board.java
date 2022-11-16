@@ -4,8 +4,8 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 public class Board extends JFrame{
-    // 보드
-    public static int x, y, walld, player_checked_state = 0, answer;
+    // 보
+    public static int x, y, walld, player_checked_state = 0, answer, wall_count_player1 = 0, wall_count_player2 = 0;
     static final int ROWS = 9, COLS = 9;
     public static JButton[][] Spaces = new JButton[ROWS][COLS];
     public static JButton[][] CenterWalls = new JButton[ROWS-1][COLS-1];
@@ -15,6 +15,8 @@ public class Board extends JFrame{
     public static String [][] CheckHwalls = new String[ROWS][COLS];
     public static String [][] CheckPawn1 = new String[ROWS][COLS];
     public static String [][] CheckPawn2 = new String[ROWS][COLS];
+    public static JLabel turnStr = new JLabel("현재 턴: Player1, 나의 벽 개수: 0/6", SwingConstants.CENTER);
+
 
     public Quoridor quoridor;
     private JButton space(Color bg)
@@ -97,15 +99,18 @@ public class Board extends JFrame{
 
         JPanel mainUI = new JPanel();
         mainUI.setLayout(new BorderLayout(5, 5));
-        JLabel label = new JLabel("반갑습니다! 쿼리도에 오신 것을 환영합니다!", SwingConstants.CENTER);
-        JPanel topUI = new JPanel();
-        topUI.setLayout(new BorderLayout(5, 5));
+        mainUI.setPreferredSize(new Dimension(230, 400));
+        JLabel label1 = new JLabel("당신은 Player "+(Main.client.getMyId() + 1) + "입니다.", SwingConstants.CENTER);
+        JPanel btmUI = new JPanel();
+        btmUI.setLayout(null);
+        btmUI.setPreferredSize(new Dimension(230, 400));
         JButton btn1 = new JButton("나가기 / 항복");
-        JButton btn2 = new JButton("턴 무르기");
-        topUI.add(btn1, BorderLayout.EAST);
-        topUI.add(btn2, BorderLayout.WEST);
-        mainUI.add(label, BorderLayout.CENTER);
-        mainUI.add(topUI, BorderLayout.SOUTH);
+        btn1.setHorizontalAlignment(SwingConstants.CENTER);
+        btn1.setBounds(50, 250, 100, 50);
+        btmUI.add(btn1);
+        mainUI.add(label1, BorderLayout.NORTH);
+        mainUI.add(turnStr, BorderLayout.CENTER);
+        mainUI.add(btmUI, BorderLayout.SOUTH);
         c.add(mainUI, BorderLayout.EAST);
         c.add(pane, BorderLayout.CENTER); //프레임에 content 붙이기
         c.setVisible(true);

@@ -799,12 +799,24 @@ public class Quoridor extends JFrame implements ActionListener{
             } else if (walld == 0 && select_verticalWall != null) {
                 int x = select_verticalWall.get(0);
                 int y = select_verticalWall.get(1);
-                CreateVerticalWall(x, y, Main.client.isTurn());
+                if(Main.client.getMyId() == 0 && wall_count_player1 < 6){
+                    wall_count_player1 += 1;
+                    CreateVerticalWall(x, y, Main.client.isTurn());
+                }else if (Main.client.getMyId() == 1 && wall_count_player2 < 6){
+                    wall_count_player2 += 1;
+                    CreateVerticalWall(x, y, Main.client.isTurn());
+                }
             }
             else if (walld == 0 && select_horizontalWall != null) {
                 int x = select_horizontalWall.get(0);
                 int y = select_horizontalWall.get(1);
-                CreateHorizontalWall(x, y, Main.client.isTurn());
+                if(Main.client.getMyId() == 0 && wall_count_player1 < 6){
+                    wall_count_player1 += 1;
+                    CreateHorizontalWall(x, y, Main.client.isTurn());
+                }else if (Main.client.getMyId() == 1 && wall_count_player2 < 6){
+                    wall_count_player2 += 1;
+                    CreateHorizontalWall(x, y, Main.client.isTurn());
+                }
             } else {
                 System.out.println("확인되지 않은 플레이");
             }
