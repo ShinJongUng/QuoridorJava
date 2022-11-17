@@ -21,7 +21,7 @@ public class Main {
 
 class Network_Thread implements Runnable{
     public void run(){
-        Main.client = new Client(6000);
+        Main.client = new Client(5000);
         try {
             while (true) {
                 Main.client.Read();

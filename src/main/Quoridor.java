@@ -748,11 +748,13 @@ public class Quoridor extends JFrame implements ActionListener{
     public void Win(int x, int ID){
         if(ID == 0) {
             if (x == 0) {
+                Main.client.Write(new Packet(Main.client.getMyId(), 0, 0, Packet.State.Winner, Main.client.isTurn()));
                 JOptionPane.showMessageDialog(this, "Player1 승리", "게임 종료", JOptionPane.INFORMATION_MESSAGE, null);
                 answer = 1;
             }
         }else if(ID == 1) {
             if(x == 8) {
+                Main.client.Write(new Packet(Main.client.getMyId(), ROWS-1, 0, Packet.State.Winner, Main.client.isTurn()));
                 JOptionPane.showMessageDialog(this, "Player2 승리", "게임 종료", JOptionPane.INFORMATION_MESSAGE, null);
                 answer = 1;
             }
