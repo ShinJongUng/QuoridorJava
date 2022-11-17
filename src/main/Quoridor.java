@@ -108,15 +108,18 @@ public class Quoridor extends JFrame implements ActionListener{
                     possible = true;
                 }
             }
-            System.out.println("(" + (y + 1 + "," + (x + 1)) + ")," + "(" + (y + 1 + "," + (x + 2)) + ")"); // to do
-            if (turn && possible)
+            if (turn && possible) {
+                if(Main.client.getMyId() == 0)
+                    wall_count_player1 += 1;
+                else
+                    wall_count_player2 += 1;
                 Main.client.Write(new Packet(Main.client.getMyId(), x, y, Packet.State.Vertical_Wall, Main.client.isTurn()));
+            }
         } catch (Exception e) {
             System.out.println("Error VerticalWalls");
         }
     }
     public void CreateHorizontalWall(int x, int y, boolean turn){
-        System.out.println("가로 벽 실행");
         boolean possible = false;
         try {
             if (y + 1 >= COLS) {
@@ -138,16 +141,19 @@ public class Quoridor extends JFrame implements ActionListener{
                 if (turn && (!BFS_Path(0) || !BFS_Path(1))) {
                     CheckHwalls[x][y] = "";
                     CheckHwalls[x][y + 1] = "";
-                    System.out.println("실패했어요. ");
                 }
                 else {
                     setHorizontalWall(x, y);
                     possible = true;
                 }
             }
-            System.out.println("(" + (y + 1 + "," + (x + 1)) + ")," + "(" + (y + 2 + "," + (x + 1)) + ")"); //to do
-            if (turn && possible)
+            if (turn && possible) {
+                if(Main.client.getMyId() == 0)
+                    wall_count_player1 += 1;
+                else
+                    wall_count_player2 += 1;
                 Main.client.Write(new Packet(Main.client.getMyId(), x, y, Packet.State.Horizontal_Wall, Main.client.isTurn()));
+            }
         }
         catch(Exception e){
             System.out.println("Error Horizontal Wall");
@@ -253,7 +259,6 @@ public class Quoridor extends JFrame implements ActionListener{
                 int x = pawn1x + dist_x[i];
                 int y = pawn1x + dist_y[i];
                 if (Is_Path(x, y) && Pawn.pawn_Location[1][0] == x && Pawn.pawn_Location[1][1] == y) {
-                    System.out.println(x + " " + y);
                     CheckPawn1[x][y] = "";
                     Spaces[x][y].setBackground(Color.GRAY);
                     break;
@@ -431,7 +436,6 @@ public class Quoridor extends JFrame implements ActionListener{
                     int x = pawn2x + dist_x[i];
                     int y = pawn2y + dist_y[i];
                     if (Is_Path(x, y) && Pawn.pawn_Location[0][0] == x && Pawn.pawn_Location[0][1] == y) {
-                        System.out.println("겹침 " + x + " " + y);
                         CheckPawn2[x][y] = "";
                         Spaces[x][y].setBackground(Color.GRAY);
                         break;
@@ -802,10 +806,8 @@ public class Quoridor extends JFrame implements ActionListener{
                 int x = select_verticalWall.get(0);
                 int y = select_verticalWall.get(1);
                 if(Main.client.getMyId() == 0 && wall_count_player1 < 6){
-                    wall_count_player1 += 1;
                     CreateVerticalWall(x, y, Main.client.isTurn());
                 }else if (Main.client.getMyId() == 1 && wall_count_player2 < 6){
-                    wall_count_player2 += 1;
                     CreateVerticalWall(x, y, Main.client.isTurn());
                 }
             }
@@ -813,10 +815,8 @@ public class Quoridor extends JFrame implements ActionListener{
                 int x = select_horizontalWall.get(0);
                 int y = select_horizontalWall.get(1);
                 if(Main.client.getMyId() == 0 && wall_count_player1 < 6){
-                    wall_count_player1 += 1;
                     CreateHorizontalWall(x, y, Main.client.isTurn());
                 }else if (Main.client.getMyId() == 1 && wall_count_player2 < 6){
-                    wall_count_player2 += 1;
                     CreateHorizontalWall(x, y, Main.client.isTurn());
                 }
             } else {

@@ -104,7 +104,7 @@ public class Server {
     }
 
     public static void main(String[] args) throws IOException{
-        Server server= new Server(6000);
+        Server server= new Server(5000);
 
         while(true){
             server.selector.select();
