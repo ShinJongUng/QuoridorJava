@@ -7,7 +7,8 @@ public class Packet implements Serializable{
         Start,
         Move,
         Vertical_Wall,
-        Horizontal_Wall
+        Horizontal_Wall,
+        Winner
     }
     private int x, y;
     private State state;
