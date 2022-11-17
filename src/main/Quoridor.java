@@ -260,7 +260,6 @@ public class Quoridor extends JFrame implements ActionListener{
                 int y = pawn1y + dist_y[i];
                 if (Is_Path(x, y) && Pawn.pawn_Location[1][0] == x && Pawn.pawn_Location[1][1] == y) {
                     CheckPawn1[x][y] = "";
-                    Spaces[x][y].setBackground(Color.GRAY);
                     break;
                 }
             }
@@ -336,6 +335,14 @@ public class Quoridor extends JFrame implements ActionListener{
                 player_checked_state = 0;
             }
             walld = 0;
+            for(int i = 0 ;i<4; i++) {
+                int x = pawn1x + dist_x[i];
+                int y = pawn1y + dist_y[i];
+                if (Is_Path(x, y) && Pawn.pawn_Location[1][0] == x && Pawn.pawn_Location[1][1] == y) {
+                    Spaces[x][y].setBackground(Color.GRAY);
+                    break;
+                }
+            }
         }
     }
     public void canMovePawn2(int pawn2x, int pawn2y) {
@@ -514,6 +521,14 @@ public class Quoridor extends JFrame implements ActionListener{
                 player_checked_state = 0;
             }
             walld = 0;
+            for(int i = 0 ;i<4; i++) {
+                int x = pawn2x + dist_x[i];
+                int y = pawn2y + dist_y[i];
+                if (Is_Path(x, y) && Pawn.pawn_Location[0][0] == x && Pawn.pawn_Location[0][1] == y) {
+                    Spaces[x][y].setBackground(Color.GRAY);
+                    break;
+                }
+            }
         }
     }
     public void deletePawnSet1(int pawn1x, int pawn1y) {
@@ -632,6 +647,14 @@ public class Quoridor extends JFrame implements ActionListener{
                 Win(pawn1x, Main.client.getMyId());
                 Main.client.Write(new Packet(Main.client.getMyId(), pawn1x, pawn1y, Packet.State.Move, Main.client.isTurn()));
             }
+        for(int i = 0 ;i<4; i++) {
+            int x1 = x + dist_x[i];
+            int y1 = y + dist_y[i];
+            if (Is_Path(x1, y1) && Pawn.pawn_Location[1][0] == x1 && Pawn.pawn_Location[1][1] == y1) {
+                Spaces[x1][y1].setBackground(Color.GRAY);
+                break;
+            }
+        }
     }
     public void deletePawnSet2(int pawn2x, int pawn2y) {
         if (CheckPawn2[pawn2x][pawn2y] == "cango") {
@@ -747,6 +770,14 @@ public class Quoridor extends JFrame implements ActionListener{
             }
             Win(pawn2x, Main.client.getMyId());
             Main.client.Write(new Packet(Main.client.getMyId(), pawn2x, pawn2y, Packet.State.Move, Main.client.isTurn()));
+        }
+        for(int i = 0 ;i<4; i++) {
+            int x2 = x + dist_x[i];
+            int y2 = y + dist_y[i];
+            if (Is_Path(x2, y2) && Pawn.pawn_Location[0][0] == x2 && Pawn.pawn_Location[0][1] == y2) {
+                Spaces[x2][y2].setBackground(Color.GRAY);
+                break;
+            }
         }
     }
     public void Win(int x, int ID){
