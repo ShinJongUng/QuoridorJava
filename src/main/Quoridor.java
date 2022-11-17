@@ -257,7 +257,7 @@ public class Quoridor extends JFrame implements ActionListener{
             walld = 1;
             for(int i = 0 ;i<4; i++) {
                 int x = pawn1x + dist_x[i];
-                int y = pawn1x + dist_y[i];
+                int y = pawn1y + dist_y[i];
                 if (Is_Path(x, y) && Pawn.pawn_Location[1][0] == x && Pawn.pawn_Location[1][1] == y) {
                     CheckPawn1[x][y] = "";
                     Spaces[x][y].setBackground(Color.GRAY);
