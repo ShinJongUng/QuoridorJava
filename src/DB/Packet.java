@@ -8,7 +8,8 @@ public class Packet implements Serializable{
         Move,
         Vertical_Wall,
         Horizontal_Wall,
-        Winner
+        Winner,
+        Surrender
     }
     private int x, y;
     private State state;
