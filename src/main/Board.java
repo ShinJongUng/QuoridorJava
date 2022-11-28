@@ -1,13 +1,8 @@
 package main;
 
-import DB.Packet;
-
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
 public class Board extends JFrame{
     // 보
     public static int x, y, walld, player_checked_state = 0, answer, wall_count_player1 = 0, wall_count_player2 = 0;
@@ -36,35 +31,36 @@ public class Board extends JFrame{
         return space;
     }
 
-    public void initBoard() {
+    public void initBoard()
+    {
         initialBoardArray();
         Component[][] grid = new Component[2 * ROWS - 1][2 * COLS - 1];
 
-        for (int i = 0; i < ROWS; i++) {
-            for (int j = 0; j < COLS; j++) {
+        for(int i = 0; i < ROWS; i++){
+            for(int j = 0; j < COLS  ; j++){
                 grid[2 * i][2 * j] = Spaces[i][j];
             }
         }
 
-        for (int i = 0; i < ROWS; i++) {
-            for (int j = 0; j < COLS - 1; j++) {
+        for(int i = 0; i < ROWS; i++) {
+            for(int j = 0; j < COLS-1; j++) {
                 JPanel panel = new JPanel(new GridLayout(1, 1));
                 panel.add(VerticalWalls[i][j]);
                 grid[2 * i][2 * j + 1] = panel;
             }
         }
 
-        for (int i = 0; i < ROWS - 1; i++) {
-            for (int j = 0; j < COLS; j++) {
-                JPanel panel = new JPanel(new GridLayout(1, 2));
+        for(int i = 0; i < ROWS-1; i++) {
+            for(int j = 0; j < COLS; j++){
+                JPanel panel = new JPanel(new GridLayout(1,2));
                 panel.add(HorizontalWalls[i][j]);
                 grid[2 * i + 1][2 * j] = panel;
             }
         }
 
 
-        for (int i = 0; i < ROWS - 1; i++) {
-            for (int j = 0; j < COLS - 1; j++) {
+        for(int i = 0; i < ROWS-1; i++) {
+            for(int j = 0; j < COLS-1; j++){
                 grid[2 * i + 1][2 * j + 1] = CenterWalls[i][j];
             }
         }
@@ -77,13 +73,15 @@ public class Board extends JFrame{
         // layout 배치
         GroupLayout.SequentialGroup verticalSequentialGroup = layout.createSequentialGroup();
         GroupLayout.SequentialGroup horizontalSequentialGroup = layout.createSequentialGroup();
-        for (int i = 0; i < grid.length; i++) {
+        for(int i = 0; i < grid.length; i++)
+        {
             GroupLayout.ParallelGroup horizontalParallelGroup = layout.createParallelGroup();
             GroupLayout.ParallelGroup verticalParallelGroup = layout.createParallelGroup();
-            for (int j = 0; j < grid.length; j++) {
+            for(int j = 0; j < grid.length; j++)
+            {
                 // 칸은 사이즈 90으로 막는 줄은 20으로
                 horizontalParallelGroup.addComponent(grid[i][j], GroupLayout.PREFERRED_SIZE,
-                        (i % 2 == 0) ? 60 : 15, GroupLayout.PREFERRED_SIZE);
+                        (i % 2 == 0) ? 60 : 15 , GroupLayout.PREFERRED_SIZE);
                 verticalParallelGroup.addComponent(grid[j][i], GroupLayout.PREFERRED_SIZE,
                         (i % 2 == 0) ? 60 : 15, GroupLayout.PREFERRED_SIZE);
             }
@@ -93,22 +91,22 @@ public class Board extends JFrame{
         layout.setHorizontalGroup(horizontalSequentialGroup);
         layout.setVerticalGroup(verticalSequentialGroup);
 
-        Pawn.setPawn(0, ROWS - 1, COLS / 2); // 말 첫 위치 지정
+        Pawn.setPawn(0, ROWS-1, COLS / 2); // 말 첫 위치 지정
         Pawn.setPawn(1, 0, COLS / 2); // 말 첫 위치 지정
 
-        CheckPawn1[ROWS - 1][COLS / 2] = "setPawn";
+        CheckPawn1[ROWS-1][COLS / 2] = "setPawn";
         CheckPawn2[0][COLS / 2] = "setPawn";
 
         JPanel mainUI = new JPanel();
         mainUI.setLayout(new BorderLayout(5, 5));
         mainUI.setPreferredSize(new Dimension(230, 400));
-        JLabel label1 = new JLabel("당신은 Player " + (Main.client.getMyId() + 1) + "입니다.", SwingConstants.CENTER);
+        JLabel label1 = new JLabel("당신은 Player "+(Main.client.getMyId() + 1) + "입니다.", SwingConstants.CENTER);
         JPanel btmUI = new JPanel();
         btmUI.setLayout(null);
         btmUI.setPreferredSize(new Dimension(230, 400));
         JButton btn1 = new JButton("나가기 / 항복");
         btn1.setHorizontalAlignment(SwingConstants.CENTER);
-        btn1.setBounds(50, 250, 120, 50);
+        btn1.setBounds(50, 250, 100, 50);
         btmUI.add(btn1);
         mainUI.add(label1, BorderLayout.NORTH);
         mainUI.add(turnStr, BorderLayout.CENTER);
@@ -116,14 +114,6 @@ public class Board extends JFrame{
         c.add(mainUI, BorderLayout.EAST);
         c.add(pane, BorderLayout.CENTER); //프레임에 content 붙이기
         c.setVisible(true);
-        btn1.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                Main.client.Write(new Packet(Main.client.getMyId(),0,0,Packet.State.Surrender, Main.client.isTurn()));
-                System.exit(0);
-            }
-        });
-
     }
 
     private void initialBoardArray(){

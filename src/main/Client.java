@@ -5,7 +5,6 @@ import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
 import java.nio.channels.SocketChannel;
 import java.io.*;
-import main.Board.*;
 import java.util.jar.Manifest;
 
 public class Client extends Information{
@@ -16,7 +15,7 @@ public class Client extends Information{
         try{
             pt = new PKT_Serialized();
 
-            socket = SocketChannel.open(new InetSocketAddress("127.0.0.1", port));
+            socket = SocketChannel.open(new InetSocketAddress("203.241.228.47", port));
         } catch (IOException e) {
             System.out.println("서버와 연결이 종료되었습니다.");
         }
@@ -109,10 +108,6 @@ public class Client extends Information{
                 }
                 else if(pk.getState() == Packet.State.Winner){
                     Main.board.quoridor.Win(pk.getX(), pk.getId());
-                    System.out.println("패배");
-                }
-                else if(pk.getState() == Packet.State.Surrender){
-                    Main.board.quoridor.Surrender(pk.getId());
                     System.out.println("패배");
                 }
             }

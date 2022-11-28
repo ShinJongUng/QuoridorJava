@@ -799,21 +799,6 @@ public class Quoridor extends JFrame implements ActionListener{
             System.exit(0);
         }
     }
-
-    public void Surrender(int ID){
-        if(ID == 0){
-            JOptionPane.showMessageDialog(this, "상대방이 항복하였습니다", "항복", JOptionPane.INFORMATION_MESSAGE, null);
-            answer = 1;
-        }
-        else if(ID == 1) {
-            JOptionPane.showMessageDialog(this, "상대방이 항복하였습니다", "항복", JOptionPane.INFORMATION_MESSAGE, null);
-            answer = 1;
-        }
-        if(answer == 1){
-            System.exit(0);
-        }
-    }
-
     public void Enemy_Move(int px, int py, int ID) {
         Pawn.setPawn(ID, px, py);
         Spaces[px][py].setBackground(Color.gray);
